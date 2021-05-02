@@ -5,4 +5,5 @@ private:
 public:
     App();
     ~App();
+    void mainLoop();
 };
