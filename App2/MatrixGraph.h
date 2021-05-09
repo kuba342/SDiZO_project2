@@ -1,16 +1,10 @@
 class MatrixGraph
 {
 private:
-    /* data */
+    unsigned int row;
+    unsigned int column;
+
 public:
-    MatrixGraph(/* args */);
+    MatrixGraph(unsigned int row, unsigned int column);
     ~MatrixGraph();
 };
-
-MatrixGraph::MatrixGraph(/* args */)
-{
-}
-
-MatrixGraph::~MatrixGraph()
-{
-}

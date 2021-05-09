@@ -1,5 +1,8 @@
 #include "clock.h"
 
+using namespace std;
+using namespace std::chrono;
+
 Clock::Clock(){}
 
 Clock::~Clock(){}
