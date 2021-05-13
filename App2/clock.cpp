@@ -1,4 +1,4 @@
-#include "clock.h"
+#include "clock.hpp"
 
 using namespace std;
 using namespace std::chrono;

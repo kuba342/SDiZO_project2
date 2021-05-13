@@ -1,4 +1,5 @@
-#pragma once
+#ifndef clock_hpp
+#define clock_hpp
 
 #include <chrono>
 #include <iostream>
@@ -19,3 +20,5 @@ public:
     void endTime();
     long long executionTime();
 };
+
+#endif

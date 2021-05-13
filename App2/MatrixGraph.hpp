@@ -1,3 +1,6 @@
+#ifndef MatrixGraph_hpp
+#define MatrixGraph_hpp
+
 class MatrixGraph
 {
 private:
@@ -8,3 +11,5 @@ public:
     MatrixGraph(unsigned int row, unsigned int column);
     ~MatrixGraph();
 };
+
+#endif

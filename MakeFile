@@ -1,2 +1,2 @@
 App:
-	g++ App.cpp -o App
+	g++ -o App App.cpp clock.cpp ListGraph.cpp MatrixGraph.cpp

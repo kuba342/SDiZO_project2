@@ -1,1 +1,9 @@
-#include "ListGraph.h"
+#include "ListGraph.hpp"
+
+ListGraph::ListGraph(){
+
+}
+
+ListGraph::~ListGraph(){
+    
+}

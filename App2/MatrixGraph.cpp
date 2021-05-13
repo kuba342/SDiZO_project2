@@ -1,4 +1,4 @@
-#include "MatrixGraph.h"
+#include "MatrixGraph.hpp"
 
 MatrixGraph::MatrixGraph(unsigned int row, unsigned int column){
     this->row = row;
