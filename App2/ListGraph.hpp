@@ -2,6 +2,7 @@
 #define ListGraph_hpp
 
 #include "structures/BiList.hpp"
+#include <string>
 
 class ListGraph
 {
@@ -15,14 +16,15 @@ public:
     ListGraph(int V, int E);
     ~ListGraph();
 
-    void addEdge();
-    void addNode();
-    void removeEdge();
-    void removeNode();
+    bool addEdge(int beg, int end, int weight);
+    bool addDirectedEdge(int beg, int end, int weight);
+
     //Settery i gettery
     int getV();
     int getE();
 
+    //reprezentacja
+    void showGraph();
 };
 
 #endif

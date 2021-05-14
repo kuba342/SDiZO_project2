@@ -1,13 +1,10 @@
 #include <iostream>
 #include "App.hpp"
-#include "clock.hpp"
-#include "structures/BiList.hpp"
 
 using namespace std;
 
 App::App(){
     this->cl = new Clock();
-    this->wsk = new BiList();
 }
 
 App::~App(){
@@ -20,10 +17,13 @@ int main(void){
 }
 
 void App::mainLoop(){
-    
-    this->wsk->addAtTheEnd(1,20);
-    this->wsk->addAtTheEnd(2,40);
-    this->wsk->addAtTheBeginning(0,0);
-    this->wsk->showList();
-    this->wsk->showList();
+    std::cout << "cos";
+    ListGraph* wsk = new ListGraph(4,5);
+    std::cout << "cos";
+    bool result = wsk->addDirectedEdge(-1,2,5);
+    //bool result = wsk->addEdge(0,1,5);
+    std::cout << result;
+    std::cout << "cos\n";
+    wsk->showGraph();
+
 }

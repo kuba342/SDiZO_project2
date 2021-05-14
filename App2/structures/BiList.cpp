@@ -137,7 +137,7 @@ void BiList::showList(){
 
     std::cout << "List: [";
     for(pointer; pointer!=nullptr; pointer=pointer->next){
-        std::cout << " " << pointer->key << ":" << pointer->weight << " ";
+        std::cout << "  " << pointer->key << ":(" << pointer->weight << ")  ";
     }
     std::cout << "]";
 }
