@@ -1,2 +1,2 @@
 App:
-	g++ -o App App.cpp clock.cpp ListGraph.cpp MatrixGraph.cpp
+	g++ -o App App.cpp clock.cpp ListGraph.cpp MatrixGraph.cpp BiList.cpp
