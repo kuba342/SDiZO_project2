@@ -1,5 +1,4 @@
 #include "ListGraph.hpp"
-#include "BiList.hpp"
 
 ListGraph::ListGraph(int V, int E){
     this->V = V;

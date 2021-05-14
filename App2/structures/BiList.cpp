@@ -1,5 +1,7 @@
 #include "BiList.hpp"
 
+#include <iostream>
+
 //KONSTRUKTOR
 BiList::BiList(){
     this->head = nullptr;
@@ -135,7 +137,7 @@ void BiList::showList(){
 
     std::cout << "List: [";
     for(pointer; pointer!=nullptr; pointer=pointer->next){
-        std::cout << " " << pointer->key << " ";
+        std::cout << " " << pointer->key << ":" << pointer->weight << " ";
     }
     std::cout << "]";
 }

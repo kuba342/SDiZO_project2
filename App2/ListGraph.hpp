@@ -1,7 +1,7 @@
 #ifndef ListGraph_hpp
 #define ListGraph_hpp
 
-#include "BiList.hpp"
+#include "structures/BiList.hpp"
 
 class ListGraph
 {

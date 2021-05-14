@@ -1,0 +1,18 @@
+OBJS = App.o MatrixGraph.o ListGraph.o clock.o BiList.o
+
+App: $(OBJS)
+	g++ -o App $(OBJS)
+App.o:
+	g++ -c App.cpp
+MatrixGraph.o:
+	g++ -c MatrixGraph.cpp
+ListGraph.o:
+	g++ -c ListGraph.cpp
+clock.o:
+	g++ -c clock.cpp
+BiList.o:
+	g++ -c structures/BiList.cpp
+
+
+clean:
+	rm -f core App $(OBJS)
