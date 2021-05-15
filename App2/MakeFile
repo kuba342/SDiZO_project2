@@ -1,4 +1,4 @@
-OBJS = App.o MatrixGraph.o ListGraph.o clock.o BiList.o
+OBJS = App.o MatrixGraph.o ListGraph.o clock.o BiList.o MST.o ShortestPath.o
 
 App: $(OBJS)
 	g++ -o App $(OBJS)
@@ -12,6 +12,10 @@ clock.o:
 	g++ -c clock.cpp
 BiList.o:
 	g++ -c structures/BiList.cpp
+MST.o:
+	g++ -c MST.cpp
+ShortestPath.o:
+	g++ -c ShortestPath.cpp
 
 
 clean:
