@@ -36,6 +36,7 @@ void App::mainLoop(){
                 << "X lub x. Koniec programu\n\n"
                 << "Wpisz znak operacji: ";
         std::cin >> option;
+        fflush(stdin);
 
         switch(option){
             case '1':
