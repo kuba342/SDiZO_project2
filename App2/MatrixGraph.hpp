@@ -1,15 +1,33 @@
 #ifndef MatrixGraph_hpp
 #define MatrixGraph_hpp
 
+/**
+ * Reprezentacja jako macierz incydencji
+ */
 class MatrixGraph
 {
 private:
-    unsigned int row;
-    unsigned int column;
+    int V;
+    int E;
+    int ECount;
+    int** matrix;
+    int* weights;
 
 public:
-    MatrixGraph(unsigned int row, unsigned int column);
+    MatrixGraph();
+    MatrixGraph(int V, int E);
     ~MatrixGraph();
+
+    bool addEdge(int beg, int end, int weight);
+    bool addDirectedEdge(int beg, int end, int weight);
+
+    //Settery i gettery
+    int getV();
+    int getE();
+    int getECount();
+
+    //reprezentacja
+    void showGraph();
 };
 
 #endif

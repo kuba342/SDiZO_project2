@@ -1,8 +1,7 @@
 #include "ListGraph.hpp"
 
-ListGraph::ListGraph(int V, int E){
+ListGraph::ListGraph(int V){
     this->V = V;
-    this->E = E;
     this->table = new BiList *[V];
     for(int i=0; i<V; i++){
         this->table[i] = new BiList();
@@ -10,7 +9,7 @@ ListGraph::ListGraph(int V, int E){
 }
 
 ListGraph::~ListGraph(){
-    
+    delete [] table;
 }
 
 bool ListGraph::addEdge(int beg, int end, int weight){
@@ -20,6 +19,7 @@ bool ListGraph::addEdge(int beg, int end, int weight){
     else{
         this->table[beg]->addAtTheEnd(end, weight);
         this->table[end]->addAtTheEnd(beg, weight);
+        this->E++;
     }
     return true;
 }
@@ -30,6 +30,7 @@ bool ListGraph::addDirectedEdge(int beg, int end, int weight){
     }
     else{
         this->table[beg]->addAtTheEnd(end, weight);
+        this->E++;
     }
     return true;
 }
@@ -40,4 +41,13 @@ void ListGraph::showGraph(){
         this->table[i]->showList();
         std::cout << "\n";
     }
+}
+
+//Settery i gettery
+int ListGraph::getE(){
+    return this->E;
+}
+
+int ListGraph::getV(){
+    return this->V;
 }

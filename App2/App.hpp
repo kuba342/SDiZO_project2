@@ -3,6 +3,7 @@
 
 #include "clock.hpp"
 #include "ListGraph.hpp"
+#include "MatrixGraph.hpp"
 
 using namespace std;
 

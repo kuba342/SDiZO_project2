@@ -4,6 +4,9 @@
 #include "structures/BiList.hpp"
 #include <string>
 
+/**
+ * Reprezentacja jako lista następników
+ */
 class ListGraph
 {
 private:
@@ -13,7 +16,7 @@ private:
 
 public:
     ListGraph();
-    ListGraph(int V, int E);
+    ListGraph(int V);
     ~ListGraph();
 
     bool addEdge(int beg, int end, int weight);

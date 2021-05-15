@@ -17,13 +17,12 @@ int main(void){
 }
 
 void App::mainLoop(){
-    std::cout << "cos";
-    ListGraph* wsk = new ListGraph(4,5);
-    std::cout << "cos";
-    bool result = wsk->addDirectedEdge(-1,2,5);
-    //bool result = wsk->addEdge(0,1,5);
-    std::cout << result;
-    std::cout << "cos\n";
+    ListGraph* wsk = new ListGraph(5);
+    MatrixGraph* wsk1 = new MatrixGraph(5,6);
+    wsk->addDirectedEdge(1,2,5);
+    wsk1->addDirectedEdge(1,2,5);
+    wsk->addEdge(0,1,5);
+    wsk1->addEdge(0,1,5);
     wsk->showGraph();
-
+    wsk1->showGraph();
 }
