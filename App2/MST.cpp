@@ -6,6 +6,8 @@
 MST::MST(){
     this->lGraph = nullptr;
     this->mGraph = nullptr;
+    this->lib = new Additional();
+    this->path = "D:/STUDIA/IV semestr/SDiZO/Projekt/SDiZO_project2/App2/";
 }
 
 MST::~MST(){
@@ -68,7 +70,133 @@ void MST::mainLoop(){
 }
 
 void MST::readFromFile(){
+    system("cls");
+    if(this->lGraph == nullptr && this->mGraph == nullptr){
+        readData("graf.txt");
+    }
+    else{
+        char decision;
+        std::cout << "Czy chcesz nadpisac obecny graf?\n"
+                  << "Wpisz T lub N:";
+        std::cin >> decision;
 
+        switch(decision){
+            case 'T':
+                system("cls");
+                readData("graf.txt");
+                break;
+            case 't':
+                system("cls");
+                readData("graf.txt");
+                break;
+
+            case 'N':
+                system("cls");
+                std::cout << "Operacja anulowana!";
+                sleep(2);
+                return;
+                break;
+            case 'n':
+                system("cls");
+                std::cout << "Operacja anulowana!";
+                sleep(2);
+                return;
+                break;
+            default:
+                system("cls");
+                std::cout << "Operacja anulowana - zly znak!";
+                sleep(2);
+                return;
+                break;
+        }
+    }
+}
+
+void MST::readData(std::string name){
+    int e,v,indeks,indeks2,n;
+    int beg, end, weight;
+    std::string str1, str2, str3;
+    this->handler.close();
+    std::string Path = this->path + name;
+    this->handler.open(Path);
+
+    std::string line;
+
+    //Pobieram pierwszą linię
+    getline(this->handler, line);
+
+    if(this->lGraph != nullptr){
+        delete this->lGraph;
+    }
+    if(this->mGraph != nullptr){
+        delete this->mGraph;
+    }
+
+    indeks = line.find(' ');
+    n = line.find('\n');
+    //Pierwsza liczba
+    str1 = line.substr(0,indeks);
+    str2 = line.substr(indeks+1, n-indeks-1);
+
+    if(this->lib->isNum(str1) && this->lib->isNum(str2)){
+        e = std::stoi(str1);
+        v = std::stoi(str2);
+        this->lGraph = new ListGraph(v);
+        this->mGraph = new MatrixGraph(v,e);
+    }
+    else{
+        system("cls");
+        std::cout << "Blad wczytywania z pliku!";
+        sleep(2);
+        this->handler.close();
+        return;
+    }
+
+    //Odczytywanie krawędzi
+    for(int i=0; i<e; i++){
+        getline(this->handler, line);
+        indeks = line.find(' ');
+        indeks2 = line.find_last_of(' ');
+        n = line.find('\n');
+        str1 = line.substr(0,indeks);
+        str2 = line.substr(indeks+1, indeks2-indeks-1);
+        str3 = line.substr(indeks2+1, n-indeks2-1);
+        if(this->lib->isNum(str1)){
+            beg = std::stoi(str1);
+        }
+        else{
+            system("cls");
+            std::cout << "Nieprawidlowa pierwsza dana krawedzi!";
+            sleep(2);
+            this->handler.close();
+            return;
+        }
+
+        if(this->lib->isNum(str2)){
+            end = std::stoi(str2);
+        }
+        else{
+            system("cls");
+            std::cout << "Nieprawidlowa druga dana krawedzi!";
+            sleep(2);
+            this->handler.close();
+            return;
+        }
+
+        if(this->lib->isNum(str3)){
+            weight = std::stoi(str3);
+        }
+        else{
+            system("cls");
+            std::cout << "Nieprawidlowa druga dana krawedzi!";
+            sleep(2);
+            this->handler.close();
+            return;
+        }
+
+        this->lGraph->addEdge(beg, end, weight);
+        this->mGraph->addEdge(beg, end, weight);
+    }
 }
 
 void MST::generateGraph(){

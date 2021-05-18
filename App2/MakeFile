@@ -1,5 +1,5 @@
 OBJS = App.o MatrixGraph.o ListGraph.o clock.o BiList.o MST.o ShortestPath.o Queue.o
-
+OBJS += Additional.o
 App: $(OBJS)
 	g++ -o App $(OBJS)
 App.o:
@@ -18,6 +18,8 @@ ShortestPath.o:
 	g++ -c ShortestPath.cpp
 Queue.o:
 	g++ -c structures/Queue.cpp
+Additional.o:
+	g++ -c structures/Additional.cpp
 
 clean:
 	rm -f core App $(OBJS)
