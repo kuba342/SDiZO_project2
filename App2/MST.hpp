@@ -20,6 +20,7 @@ private:
     void generateGraph();
     void showGraphs();
     void Prim();
+    void lPrim();
     void Kruskal();
 
 public:

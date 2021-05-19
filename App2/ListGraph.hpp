@@ -23,6 +23,7 @@ public:
     bool addDirectedEdge(int beg, int end, int weight);
 
     //Settery i gettery
+    BiList* getListFromArray(int indeks);
     int getV();
     int getE();
 

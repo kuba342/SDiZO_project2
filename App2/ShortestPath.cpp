@@ -195,8 +195,8 @@ void ShortestPath::readData(std::string name){
             return;
         }
 
-        this->lGraph->addEdge(beg, end, weight);
-        this->mGraph->addEdge(beg, end, weight);
+        this->lGraph->addDirectedEdge(beg, end, weight);
+        this->mGraph->addDirectedEdge(beg, end, weight);
     }
 }
 

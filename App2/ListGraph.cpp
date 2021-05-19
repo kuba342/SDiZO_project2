@@ -44,6 +44,15 @@ void ListGraph::showGraph(){
 }
 
 //Settery i gettery
+BiList* ListGraph::getListFromArray(int indeks){
+    if(indeks>this->V || indeks<0){
+        return nullptr;
+    }
+    else{
+        return this->table[indeks];
+    }
+}
+
 int ListGraph::getE(){
     return this->E;
 }

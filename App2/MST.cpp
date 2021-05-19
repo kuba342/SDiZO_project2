@@ -2,6 +2,7 @@
 
 #include <string>
 #include <unistd.h>
+#include "structures/Queue.hpp"
 
 MST::MST(){
     this->lGraph = nullptr;
@@ -222,7 +223,61 @@ void MST::showGraphs(){
 }
 
 void MST::Prim(){
+    lPrim();
+}
 
+void MST::lPrim(){
+    if(this->lGraph == nullptr){
+        system("cls");
+        std::cout << "Nie wczytano grafu!";
+        sleep(2);
+        return;
+    }
+
+    int v;
+    //kolejka priorytetowa
+    Queue* queue = new Queue(this->lGraph->getE());
+    //MST listowy
+    ListGraph* mst = new ListGraph(this->lGraph->getV());
+    //Tablica odwiedzonych
+    bool* visited = new bool [this->lGraph->getV()];
+
+    //Inicjalizacja tablicy odwiedzonych
+    for(int i=0; i<this->lGraph->getV(); i++){
+        visited[i] = false;
+    }
+
+    //Minimalne drzewo rozpinające:
+    v = 0;                  //wierzchołek startowy
+    visited[v] = true;      //Odchaczony jako odwiedzony
+    
+    Edge e;
+    BiList* pointer;
+    //Dodaję do MST V-1 krawędzi
+    for(int i=1; i<this->lGraph->getV(); i++){
+        pointer = this->lGraph->getListFromArray(v);
+        //Przeglądam listę dla wierzchołka
+        for(listElement* p = pointer->getHead(); p!=pointer->getTail()->next; p=p->next){
+            if(!visited[p->key]){
+                e.beg = v;
+                e.end = p->key;
+                e.weight = p->weight;
+                queue->push(e);
+            }
+        }
+
+        do{
+            e = queue->front();
+            queue->pop();
+        }while(visited[e.end]);
+        mst->addEdge(e.beg, e.end, e.weight);
+        visited[e.end] = true;
+        v = e.end;
+    }
+
+    mst->showGraph();
+    std::cout << "Wcisnij Enter, aby kontynuowac!";
+    std::cin.get();
 }
 
 void MST::Kruskal(){
