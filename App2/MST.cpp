@@ -224,6 +224,7 @@ void MST::showGraphs(){
 
 void MST::Prim(){
     lPrim();
+    mPrim();
 }
 
 void MST::lPrim(){
@@ -278,6 +279,70 @@ void MST::lPrim(){
     mst->showGraph();
     std::cout << "Wcisnij Enter, aby kontynuowac!";
     std::cin.get();
+    fflush(stdin);
+}
+
+void MST::mPrim(){
+    if(this->mGraph == nullptr){
+        system("cls");
+        std::cout << "Nie wczytano grafu!";
+        sleep(2);
+        return;
+    }
+    
+    int v, w;
+    //kolejka priorytetowa
+    Queue* queue = new Queue(this->mGraph->getE());
+    //MST macierzowy
+    MatrixGraph* mst = new MatrixGraph(this->mGraph->getV(),this->mGraph->getV()-1);
+    //Tablica odwiedzonych
+    bool* visited = new bool [this->mGraph->getV()];
+
+    //Inicjalizacja tablicy odwiedzonych
+    for(int i=0; i<this->mGraph->getV(); i++){
+        visited[i] = false;
+    }
+
+    //Minimalne drzewo rozpinające:
+    v = 0;                  //wierzchołek startowy
+    visited[v] = true;      //Odchaczony jako odwiedzony
+    
+    Edge e;
+
+    //Dodaję do MST V-1 krawędzi
+    for(int i=1; i<this->mGraph->getV(); i++){
+        //Przeglądam tablicę dla wierzchołka
+        for(int j=0; j<this->mGraph->getE(); j++){
+            //Jeśli początek krawędzi
+            if(this->mGraph->getMatrix()[v][j] == 1){
+                //Szukam końca krawędzi
+                for(int k=0; k<this->mGraph->getV(); k++){
+                    if(this->mGraph->getMatrix()[k][j] && k!=v){
+                        w = k;  //wierzchołek końcowy
+                        break;
+                    }
+                }
+
+                e.beg = v;
+                e.end = w;
+                e.weight = this->mGraph->getWeights()[j];
+                queue->push(e);
+            }
+        }
+
+        do{
+            e = queue->front();
+            queue->pop();
+        }while(visited[e.end]);
+        mst->addEdge(e.beg, e.end, e.weight);
+        visited[e.end] = true;
+        v = e.end;
+    }
+
+    mst->showGraph();
+    std::cout << "Wcisnij Enter, aby kontynuowac!";
+    std::cin.get();
+    fflush(stdin);
 }
 
 void MST::Kruskal(){

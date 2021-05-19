@@ -21,6 +21,7 @@ private:
     void showGraphs();
     void Prim();
     void lPrim();
+    void mPrim();
     void Kruskal();
 
 public:

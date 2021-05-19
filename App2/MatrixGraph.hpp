@@ -22,6 +22,8 @@ public:
     bool addDirectedEdge(int beg, int end, int weight);
 
     //Settery i gettery
+    int** getMatrix();
+    int* getWeights();
     int getV();
     int getE();
     int getECount();

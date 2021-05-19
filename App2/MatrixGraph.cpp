@@ -75,6 +75,14 @@ void MatrixGraph::showGraph(){
 }
 
 //Settery i gettery
+int** MatrixGraph::getMatrix(){
+    return this->matrix;
+}
+
+int* MatrixGraph::getWeights(){
+    return this->weights;
+}
+
 int MatrixGraph::getECount(){
     return this->ECount;
 }
