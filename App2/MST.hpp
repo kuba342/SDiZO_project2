@@ -4,6 +4,8 @@
 #include "MatrixGraph.hpp"
 #include "ListGraph.hpp"
 #include "structures/Additional.hpp"
+#include "structures/DisjointedSet.hpp"
+#include "structures/BiList.hpp"
 #include <fstream>
 
 class MST
@@ -23,6 +25,8 @@ private:
     void lPrim();
     void mPrim();
     void Kruskal();
+    void lKruskal();
+    void mKruskal();
 
 public:
     MST();

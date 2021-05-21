@@ -346,5 +346,64 @@ void MST::mPrim(){
 }
 
 void MST::Kruskal(){
+    lKruskal();
+    //mKruskal();
+}
+
+void MST::lKruskal(){
+    if(this->lGraph == nullptr){
+        system("cls");
+        std::cout << "Nie wczytano grafu!";
+        sleep(2);
+        return;
+    }
+
+    //kolejka priorytetowa
+    Queue* queue = new Queue(this->mGraph->getE());
+    //MST listowy
+    ListGraph* mst = new ListGraph(this->lGraph->getV());
+    //Zbiory rozłączne
+    DisjointedSet* dst = new DisjointedSet(this->lGraph->getV());
+    //Krawędź
+    Edge e;
+
+    //Zbiór rozłączny dla każdego wierzchołka
+    for(int i=0; i<this->lGraph->getV(); i++){
+        dst->makeSet(i);
+    }
+
+    //Krawędzie do kolejki priorytetowej
+    for(int i=0; i<this->lGraph->getV(); i++){
+        BiList* list = this->lGraph->getListFromArray(i);
+        //Iteruję przez wszystkie elementy listy
+        for(listElement* j=list->getHead(); j!=list->getTail()->next; j=j->next){
+            if(j->key > i){
+                e.beg = i;
+                e.end = j->key;
+                e.weight = j->weight;
+                queue->push(e);
+            }
+        }
+    }
+
+    //pętla wykonuje się V-1 razy
+    for(int i=1; i<this->lGraph->getV(); i++){
+        do{
+            e = queue->front();
+            queue->pop();
+        }while(dst->findSet(e.beg) == dst->findSet(e.end));
+
+        mst->addEdge(e.beg, e.end, e.weight);
+        dst->unionSets(e);
+    }
+
+    mst->showGraph();
+    std::cout << "Wcisnij Enter, aby kontynuowac!";
+    std::cin.get();
+    fflush(stdin);
+}
+
+void MST::mKruskal(){
 
 }
+
