@@ -282,6 +282,8 @@ void ShortestPath::lDijkstry(int src, int dst){
     int* d = new int[this->lGraph->getV()];     //Koszty dojścia
     int* parent = new int[this->lGraph->getV()];    //Tablica poprzedników
     bool* visited = new bool[this->lGraph->getV()]; //Tablica odwiedzonych
+    int* stack = new int[this->lGraph->getV()];
+    int wsk = 0;
 
     //Inicjalizacja tablic dynamicznych
     for(int i=0; i<this->lGraph->getV(); i++){
@@ -316,7 +318,34 @@ void ShortestPath::lDijkstry(int src, int dst){
         }
     }
 
-    
+    std::cout << "Koszty:\n";
+    for(int i=0; i<this->lGraph->getV(); i++){
+        std::cout << " " << d[i] << " ";
+    }
+    std::cout << "\n\n";
+
+    std::cout << "Rodzice:\n";
+    for(int i=0; i<this->lGraph->getV(); i++){
+        std::cout << " " << parent[i] << " ";
+    }
+    std::cout << "\n";
+
+    //Ścieżka na stosie
+    for(int i=dst; i>-1; i=parent[i]){
+        stack[wsk++] = i;
+    }
+
+    std::cout << "Sciezka: [";
+    //Wyświetlenie stosu od tyłu z wagą na końcu
+    for(int i=wsk-1; i>=0; i--){
+        std::cout << " " << stack[i] << " ";
+    }
+    std::cout << "]\n";
+    std::cout << "Weight = " << d[dst];
+    std::cout << "\n\nWcisnij Enter, aby kontynuowac!";
+    fflush(stdin);
+    std::cin.get();
+    fflush(stdin);
 }
 
 void ShortestPath::mDijkstry(){
