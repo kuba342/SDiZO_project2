@@ -223,9 +223,114 @@ void ShortestPath::showGraphs(){
 }
 
 void ShortestPath::Dijkstry(){
+    std::string source, destination;
+    int src, dst;
+    if(this->lGraph == nullptr || this->mGraph == nullptr){
+        system("cls");
+        std::cout << "Nie wczytano grafu!";
+        sleep(2);
+        return;
+    }
+    std::cout << "Wprowadz wierzcholek poczatkowy: ";
+    std::cin >> source;
+    fflush(stdin);
+    if(this->lib->isNum(source)){
+        src = std::stoi(source);
+        if(src < this->lGraph->getV()){
+            std::cout << "\nWprowadz wierzcholek docelowy: ";
+            std::cin >> destination;
+            if(this->lib->isNum(destination)){
+                dst = std::stoi(destination);
+                if(dst < this->lGraph->getV()){
+
+                    //Tu wywołuję algorytm Dijkstry dla dwóch wierzchołków
+                    lDijkstry(src, dst);
+
+                }
+                else{
+                    system("cls");
+                    std::cout<<"Nie ma takiego wierzcholka!";
+                    sleep(2);
+                    return;
+                }
+            }
+            else{
+                system("cls");
+                std::cout << "Wprowadzono zle znaki!";
+                sleep(2);
+                return;
+            }
+        }
+        else{
+            system("cls");
+            std::cout<<"Nie ma takiego wierzcholka!";
+            sleep(2);
+            return;
+        }
+    }
+    else{
+        system("cls");
+        std::cout << "Wprowadzono zle znaki!";
+        sleep(2);
+        return;
+    }
+}
+
+void ShortestPath::lDijkstry(int src, int dst){
+    int MAXINT = 2147483647;
+    //Tablice dynamiczne
+    int* d = new int[this->lGraph->getV()];     //Koszty dojścia
+    int* parent = new int[this->lGraph->getV()];    //Tablica poprzedników
+    bool* visited = new bool[this->lGraph->getV()]; //Tablica odwiedzonych
+
+    //Inicjalizacja tablic dynamicznych
+    for(int i=0; i<this->lGraph->getV(); i++){
+        d[i] = MAXINT;
+        parent[i] = -1;
+        visited[i] = false;
+    }
+
+    //Koszt dojścia dla źródłowego wierzchołka - 0
+    d[src] = 0;
+
+    //Wyznaczenie ścieżek - dla każdego wierzchołka
+    for(int i=0; i<this->lGraph->getV(); i++){
+        //Znajduję nieodwiedzony
+        int j,k;
+        for(j=0; visited[j]; j++);
+        for(k=j++; j<this->lGraph->getV(); j++){
+            if(!visited[j] && (d[j] < d[k])){
+                k = j;
+            }
+        }
+        
+        //Odwiedzony
+        visited[k] = true;
+
+        BiList* list = this->lGraph->getListFromArray(k);
+        for(listElement* i=list->getHead(); i!=list->getTail()->next; i=i->next){
+            if(!visited[i->key] && (d[i->key] > d[k] + i->weight)){
+                d[i->key] = d[k] + i->weight;
+                parent[i->key] = k;
+            }
+        }
+    }
+
+    
+}
+
+void ShortestPath::mDijkstry(){
 
 }
 
 void ShortestPath::BellmanFord(){
+
+}
+
+void ShortestPath::lBellmanFord(){
+
+}
+
+void ShortestPath::mBellmanFord(){
 
 }

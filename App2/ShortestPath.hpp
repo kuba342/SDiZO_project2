@@ -20,7 +20,11 @@ private:
     void generateGraph();
     void showGraphs();
     void Dijkstry();
+    void lDijkstry(int src, int dst);
+    void mDijkstry();
     void BellmanFord();
+    void lBellmanFord();
+    void mBellmanFord();
     
 public:
     ShortestPath();
