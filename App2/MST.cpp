@@ -347,7 +347,7 @@ void MST::mPrim(){
 
 void MST::Kruskal(){
     lKruskal();
-    //mKruskal();
+    mKruskal();
 }
 
 void MST::lKruskal(){
@@ -359,7 +359,7 @@ void MST::lKruskal(){
     }
 
     //kolejka priorytetowa
-    Queue* queue = new Queue(this->mGraph->getE());
+    Queue* queue = new Queue(this->lGraph->getE());
     //MST listowy
     ListGraph* mst = new ListGraph(this->lGraph->getV());
     //Zbiory rozłączne
@@ -404,6 +404,61 @@ void MST::lKruskal(){
 }
 
 void MST::mKruskal(){
+    if(this->mGraph == nullptr){
+        system("cls");
+        std::cout << "Nie wczytano grafu!";
+        sleep(2);
+        return;
+    }
 
+    //kolejka priorytetowa
+    Queue* queue = new Queue(this->mGraph->getE());
+    //MST listowy
+    MatrixGraph* mst = new MatrixGraph(this->mGraph->getV(), this->mGraph->getV()-1);
+    //Zbiory rozłączne
+    DisjointedSet* dst = new DisjointedSet(this->mGraph->getV());
+    //Krawędź
+    Edge e;
+
+    //Zbiór rozłączny dla każdego wierzchołka
+    for(int i=0; i<this->mGraph->getV(); i++){
+        dst->makeSet(i);
+    }
+
+    //Do kolejki dodaję wszystkie krawędzie grafu
+    for(int i=0; i<this->mGraph->getE(); i++){
+        //Sprawddzam po wierzchołkach w poszukiwaniu jedynki
+        for(int j=0; j<this->mGraph->getV(); j++){
+            //Wierzchołek początkowy
+            if(this->mGraph->getMatrix()[j][i] == 1){
+                //Zaczynam przeszukiwanie dalej w poszukiwaniu końcowego
+                for(int x=j+1; x<this->mGraph->getV(); x++){
+                    //Jeśli końcowy ma 1
+                    if(this->mGraph->getMatrix()[x][i] == 1){
+                        e.beg = j;
+                        e.end = x;
+                        e.weight = this->mGraph->getWeights()[i];
+                        queue->push(e);
+                    }
+                }
+            }
+        }
+    }
+
+    //Pętla wykonuje się V-1 razy
+    for(int i=1; i<this->mGraph->getV(); i++){
+        do{
+            e = queue->front();
+            queue->pop();
+        }while(dst->findSet(e.beg) == dst->findSet(e.end));
+
+        mst->addEdge(e.beg, e.end, e.weight);
+        dst->unionSets(e);
+    }
+
+    mst->showGraph();
+    std::cout << "Wcisnij Enter, aby kontynuowac!";
+    std::cin.get();
+    fflush(stdin);
 }
 
