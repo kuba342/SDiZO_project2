@@ -21,7 +21,7 @@ private:
     void showGraphs();
     void Dijkstry();
     void lDijkstry(int src, int dst);
-    void mDijkstry();
+    void mDijkstry(int src, int dst);
     void BellmanFord();
     void lBellmanFord();
     void mBellmanFord();

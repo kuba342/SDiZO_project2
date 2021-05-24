@@ -245,7 +245,7 @@ void ShortestPath::Dijkstry(){
 
                     //Tu wywołuję algorytm Dijkstry dla dwóch wierzchołków
                     lDijkstry(src, dst);
-
+                    mDijkstry(src, dst);
                 }
                 else{
                     system("cls");
@@ -348,8 +348,48 @@ void ShortestPath::lDijkstry(int src, int dst){
     fflush(stdin);
 }
 
-void ShortestPath::mDijkstry(){
+void ShortestPath::mDijkstry(int src, int dst){
+    int MAXINT = 2147483647;
+    //Tablice dynamiczne
+    int* d = new int[this->mGraph->getV()];     //Koszty dojścia
+    int* parent = new int[this->mGraph->getV()];    //Tablica poprzedników
+    bool* visited = new bool[this->mGraph->getV()]; //Tablica odwiedzonych
+    int* stack = new int[this->mGraph->getV()];
+    int wsk = 0;
 
+    //Inicjalizacja tablic dynamicznych
+    for(int i=0; i<this->mGraph->getV(); i++){
+        d[i] = MAXINT;
+        parent[i] = -1;
+        visited[i] = false;
+    }
+
+    //Koszt dojścia dla źródłowego wierzchołka - 0
+    d[src] = 0;
+
+    //Wyznaczenie ścieżek - dla każdego wierzchołka
+    for(int i=0; i<this->mGraph->getV(); i++){
+        //Znajduję nieodwiedzony
+        int j,k;
+        for(j=0; visited[j]; j++);
+        for(k=j++; j<this->mGraph->getV(); j++){
+            if(!visited[j] && (d[j] < d[k])){
+                k = j;
+            }
+        }
+        
+        //Odwiedzony
+        visited[k] = true;
+        /*
+        for(listElement* i=list->getHead(); i!=list->getTail()->next; i=i->next){
+            if(!visited[i->key] && (d[i->key] > d[k] + i->weight)){
+                d[i->key] = d[k] + i->weight;
+                parent[i->key] = k;
+            }
+        }*/
+
+        
+    }
 }
 
 void ShortestPath::BellmanFord(){
