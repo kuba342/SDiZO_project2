@@ -388,8 +388,53 @@ void ShortestPath::mDijkstry(int src, int dst){
             }
         }*/
 
-        
+        //k - numer wiersza, który w tym przypadku będzie stały
+        for(int i=0; i<this->mGraph->getE(); i++){
+            //Jeśli początek krawędzi
+            if(this->mGraph->getMatrix()[k][i] == 1){
+                //Iteruję przez wszystkie wirzchołki w poszukiwaniu -1
+                for(int j=0; j<this->mGraph->getV(); j++){
+                    //Jeśli znaleziony końcowy wierzchołek
+                    if(this->mGraph->getMatrix()[j][i] == -1){
+                        //Mając całą krawędź sprawdzam zgodnie z algorytmem
+                        if(!visited[j] && (d[j] > d[k] + this->mGraph->getWeights()[i])){
+                            d[j] = d[k] + this->mGraph->getWeights()[i];
+                            parent[j] = k;
+                        }
+                    }
+                }
+            }
+        }
     }
+
+    std::cout << "Koszty:\n";
+    for(int i=0; i<this->lGraph->getV(); i++){
+        std::cout << " " << d[i] << " ";
+    }
+    std::cout << "\n\n";
+
+    std::cout << "Rodzice:\n";
+    for(int i=0; i<this->lGraph->getV(); i++){
+        std::cout << " " << parent[i] << " ";
+    }
+    std::cout << "\n";
+
+    //Ścieżka na stosie
+    for(int i=dst; i>-1; i=parent[i]){
+        stack[wsk++] = i;
+    }
+
+    std::cout << "Sciezka: [";
+    //Wyświetlenie stosu od tyłu z wagą na końcu
+    for(int i=wsk-1; i>=0; i--){
+        std::cout << " " << stack[i] << " ";
+    }
+    std::cout << "]\n";
+    std::cout << "Weight = " << d[dst];
+    std::cout << "\n\nWcisnij Enter, aby kontynuowac!";
+    fflush(stdin);
+    std::cin.get();
+    fflush(stdin);    
 }
 
 void ShortestPath::BellmanFord(){
