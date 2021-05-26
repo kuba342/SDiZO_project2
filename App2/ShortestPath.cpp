@@ -438,13 +438,88 @@ void ShortestPath::mDijkstry(int src, int dst){
 }
 
 void ShortestPath::BellmanFord(){
+    std::string source, destination;
+    int src, dst;
+    if(this->lGraph == nullptr || this->mGraph == nullptr){
+        system("cls");
+        std::cout << "Nie wczytano grafu!";
+        sleep(2);
+        return;
+    }
+    std::cout << "Wprowadz wierzcholek poczatkowy: ";
+    std::cin >> source;
+    fflush(stdin);
+    if(this->lib->isNum(source)){
+        src = std::stoi(source);
+        if(src < this->lGraph->getV()){
+            std::cout << "\nWprowadz wierzcholek docelowy: ";
+            std::cin >> destination;
+            if(this->lib->isNum(destination)){
+                dst = std::stoi(destination);
+                if(dst < this->lGraph->getV()){
 
+                    //Tu wywołuję algorytm Dijkstry dla dwóch wierzchołków
+                    
+                }
+                else{
+                    system("cls");
+                    std::cout<<"Nie ma takiego wierzcholka!";
+                    sleep(2);
+                    return;
+                }
+            }
+            else{
+                system("cls");
+                std::cout << "Wprowadzono zle znaki!";
+                sleep(2);
+                return;
+            }
+        }
+        else{
+            system("cls");
+            std::cout<<"Nie ma takiego wierzcholka!";
+            sleep(2);
+            return;
+        }
+    }
+    else{
+        system("cls");
+        std::cout << "Wprowadzono zle znaki!";
+        sleep(2);
+        return;
+    }
 }
 
 void ShortestPath::lBellmanFord(){
+    int MAXINT = 2147483647;
+    //Tablice dynamiczne
+    int* d = new int[this->lGraph->getV()];     //Koszty dojścia
+    int* parent = new int[this->lGraph->getV()];    //Tablica poprzedników
+    int* stack = new int[this->lGraph->getV()];
+    int wsk = 0;
+    bool bf;
 
+    //Inicjalizacja struktur
+    for(int i=0; i<this->lGraph->getV(); i++){
+        d[i] = MAXINT;
+        parent[i] = -1;
+    }
+    
 }
 
 void ShortestPath::mBellmanFord(){
+    int MAXINT = 2147483647;
+    //Tablice dynamiczne
+    int* d = new int[this->lGraph->getV()];     //Koszty dojścia
+    int* parent = new int[this->lGraph->getV()];    //Tablica poprzedników
+    int* stack = new int[this->lGraph->getV()];
+    int wsk = 0;
+    bool bf;
+
+    //Inicjalizacja struktur
+    for(int i=0; i<this->lGraph->getV(); i++){
+        d[i] = MAXINT;
+        parent[i] = -1;
+    }
 
 }
