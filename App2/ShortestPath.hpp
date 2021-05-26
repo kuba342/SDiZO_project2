@@ -23,8 +23,8 @@ private:
     void lDijkstry(int src, int dst);
     void mDijkstry(int src, int dst);
     void BellmanFord();
-    void lBellmanFord();
-    void mBellmanFord();
+    void lBellmanFord(int src, int dst);
+    void mBellmanFord(int src, int dst);
     
 public:
     ShortestPath();

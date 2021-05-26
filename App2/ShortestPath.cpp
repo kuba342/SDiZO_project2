@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <unistd.h>
+#include "structures/BiList.hpp"
 
 
 ShortestPath::ShortestPath(){
@@ -459,7 +460,7 @@ void ShortestPath::BellmanFord(){
                 if(dst < this->lGraph->getV()){
 
                     //Tu wywołuję algorytm Dijkstry dla dwóch wierzchołków
-                    
+                    lBellmanFord(src, dst);
                 }
                 else{
                     system("cls");
@@ -490,14 +491,14 @@ void ShortestPath::BellmanFord(){
     }
 }
 
-void ShortestPath::lBellmanFord(){
-    int MAXINT = 2147483647;
+void ShortestPath::lBellmanFord(int src, int dst){
+    int MAXINT = 214748364;
     //Tablice dynamiczne
     int* d = new int[this->lGraph->getV()];     //Koszty dojścia
     int* parent = new int[this->lGraph->getV()];    //Tablica poprzedników
     int* stack = new int[this->lGraph->getV()];
     int wsk = 0;
-    bool bf;
+    bool bf, t;
 
     //Inicjalizacja struktur
     for(int i=0; i<this->lGraph->getV(); i++){
@@ -505,9 +506,69 @@ void ShortestPath::lBellmanFord(){
         parent[i] = -1;
     }
     
+    //Zeruję koszt wierzchołka startowego
+    d[src] = 0;
+
+    //Pętla relaksacji
+    for(int i=1; i<this->lGraph->getV(); i++){
+        t = true;
+        //Przejście przez kolejne wierzchołki
+        for(int j=0; j<this->lGraph->getV(); j++){
+            BiList* list;
+            list = this->lGraph->getListFromArray(j);
+            //Przeglądanie sąsiadów wierzchołka
+            for(listElement* i=list->getHead(); i!=list->getTail()->next; i=i->next){
+                //Warunek relaksacji
+                if(d[i->key] > d[j] + i->weight){
+                    t = false;
+                    d[i->key] = d[j] + i->weight;
+                    parent[i->key] = j;
+                }
+            }
+        }
+        
+        if(t){
+            bf = true;
+            break;
+        }
+    }
+
+    bf = true;
+    //Pomijam sprawdzenie ujemnego cyklu, ponieważ w założeniach wagi są dodatnie
+    
+    if(bf){
+        std::cout << "Koszty:\n";
+        for(int i=0; i<this->lGraph->getV(); i++){
+            std::cout << " " << d[i] << " ";
+        }
+        std::cout << "\n\n";
+
+        std::cout << "Rodzice:\n";
+        for(int i=0; i<this->lGraph->getV(); i++){
+            std::cout << " " << parent[i] << " ";
+        }
+        std::cout << "\n";
+
+        //Ścieżka na stosie
+        for(int i=dst; i>-1; i=parent[i]){
+            stack[wsk++] = i;
+        }
+
+        std::cout << "Sciezka: [";
+        //Wyświetlenie stosu od tyłu z wagą na końcu
+        for(int i=wsk-1; i>=0; i--){
+            std::cout << " " << stack[i] << " ";
+        }
+        std::cout << "]\n";
+        std::cout << "Weight = " << d[dst];
+        std::cout << "\n\nWcisnij Enter, aby kontynuowac!";
+        fflush(stdin);
+        std::cin.get();
+        fflush(stdin);
+    }
 }
 
-void ShortestPath::mBellmanFord(){
+void ShortestPath::mBellmanFord(int src, int dst){
     int MAXINT = 2147483647;
     //Tablice dynamiczne
     int* d = new int[this->lGraph->getV()];     //Koszty dojścia
