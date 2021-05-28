@@ -461,6 +461,7 @@ void ShortestPath::BellmanFord(){
 
                     //Tu wywołuję algorytm Dijkstry dla dwóch wierzchołków
                     lBellmanFord(src, dst);
+                    mBellmanFord(src, dst);
                 }
                 else{
                     system("cls");
@@ -492,7 +493,7 @@ void ShortestPath::BellmanFord(){
 }
 
 void ShortestPath::lBellmanFord(int src, int dst){
-    int MAXINT = 214748364;
+    int MAXINT = 2147483647;
     //Tablice dynamiczne
     int* d = new int[this->lGraph->getV()];     //Koszty dojścia
     int* parent = new int[this->lGraph->getV()];    //Tablica poprzedników
@@ -505,7 +506,7 @@ void ShortestPath::lBellmanFord(int src, int dst){
         d[i] = MAXINT;
         parent[i] = -1;
     }
-    
+
     //Zeruję koszt wierzchołka startowego
     d[src] = 0;
 
@@ -519,14 +520,13 @@ void ShortestPath::lBellmanFord(int src, int dst){
             //Przeglądanie sąsiadów wierzchołka
             for(listElement* i=list->getHead(); i!=list->getTail()->next; i=i->next){
                 //Warunek relaksacji
-                if(d[i->key] > d[j] + i->weight){
+                if(d[j] != MAXINT && d[i->key] > d[j] + i->weight){
                     t = false;
                     d[i->key] = d[j] + i->weight;
                     parent[i->key] = j;
                 }
             }
         }
-        
         if(t){
             bf = true;
             break;
@@ -575,7 +575,7 @@ void ShortestPath::mBellmanFord(int src, int dst){
     int* parent = new int[this->lGraph->getV()];    //Tablica poprzedników
     int* stack = new int[this->lGraph->getV()];
     int wsk = 0;
-    bool bf;
+    bool bf,t;
 
     //Inicjalizacja struktur
     for(int i=0; i<this->lGraph->getV(); i++){
@@ -583,4 +583,65 @@ void ShortestPath::mBellmanFord(int src, int dst){
         parent[i] = -1;
     }
 
+    //Zeruję koszt wierzchołka startowego
+    d[src] = 0;
+
+    //Pętla relaksacji - V-1 razy wykonana
+    for(int i=1; i<this->mGraph->getV(); i++){
+        t = true;
+        //Przejście przez kolejne wierzchołki
+        for(int j=0; j<this->mGraph->getV(); j++){
+            //Poszukuję początek krawędzi
+            for(int k=0; k<this->mGraph->getE(); k++){
+                if(this->mGraph->getMatrix()[j][k] == 1){
+                    //teraz poszukuję koniec krawędzi
+                    for(int l=0; l<this->mGraph->getV(); l++){
+                        if(this->mGraph->getMatrix()[l][k] == -1){
+                            //W tym momencie indeks k jest kolumną (wagi)
+                            //indeks j jest wierzchołkiem początkowym
+                            //indeks l jest wierzchołkiem końcowym
+                            if(d[j] != MAXINT && d[l] > d[j] + this->mGraph->getWeights()[k]){
+                                t = false;
+                                d[l] = d[j] + this->mGraph->getWeights()[k];
+                                parent[l] = j;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        if(t){
+            bf = true;
+            break;
+        }
+    }
+
+    std::cout << "Koszty:\n";
+    for(int i=0; i<this->lGraph->getV(); i++){
+        std::cout << " " << d[i] << " ";
+    }
+    std::cout << "\n\n";
+
+    std::cout << "Rodzice:\n";
+    for(int i=0; i<this->lGraph->getV(); i++){
+        std::cout << " " << parent[i] << " ";
+    }
+    std::cout << "\n";
+
+    //Ścieżka na stosie
+    for(int i=dst; i>-1; i=parent[i]){
+        stack[wsk++] = i;
+    }
+
+    std::cout << "Sciezka: [";
+    //Wyświetlenie stosu od tyłu z wagą na końcu
+    for(int i=wsk-1; i>=0; i--){
+        std::cout << " " << stack[i] << " ";
+    }
+    std::cout << "]\n";
+    std::cout << "Weight = " << d[dst];
+    std::cout << "\n\nWcisnij Enter, aby kontynuowac!";
+    fflush(stdin);
+    std::cin.get();
+    fflush(stdin);
 }
