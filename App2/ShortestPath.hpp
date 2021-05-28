@@ -18,6 +18,11 @@ private:
     Clock* clock;
 
     //Elementy wyznaczania ścieżek
+    int MAXINT = 2147483647;
+    int* d;
+    int* parent;
+    bool* visited;
+    int* stack;
 
     void readFromFile();
     void readData(std::string name);
@@ -29,6 +34,7 @@ private:
     void BellmanFord();
     void lBellmanFord(int src, int dst);
     void mBellmanFord(int src, int dst);
+    void showShortest(int dst);
     
 public:
     ShortestPath();

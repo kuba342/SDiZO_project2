@@ -8,7 +8,7 @@ MST::MST(){
     this->mGraph = nullptr;
     this->lib = new Additional();
     this->path = "D:/STUDIA/IV semestr/SDiZO/Projekt/SDiZO_project2/App2/";
-    this->clock = Clock();
+    this->clock = new Clock();
 }
 
 MST::~MST(){

@@ -247,7 +247,9 @@ void ShortestPath::Dijkstry(){
 
                     //Tu wywołuję algorytm Dijkstry dla dwóch wierzchołków
                     lDijkstry(src, dst);
+                    showShortest(dst);
                     mDijkstry(src, dst);
+                    showShortest(dst);
                 }
                 else{
                     system("cls");
@@ -278,14 +280,45 @@ void ShortestPath::Dijkstry(){
     }
 }
 
-void ShortestPath::lDijkstry(int src, int dst){
-    int MAXINT = 2147483647;
-    //Tablice dynamiczne
-    int* d = new int[this->lGraph->getV()];     //Koszty dojścia
-    int* parent = new int[this->lGraph->getV()];    //Tablica poprzedników
-    bool* visited = new bool[this->lGraph->getV()]; //Tablica odwiedzonych
-    int* stack = new int[this->lGraph->getV()];
+void ShortestPath::showShortest(int dst){
+    this->stack = new int[this->lGraph->getV()];
     int wsk = 0;
+
+    std::cout << "Koszty:\n";
+    for(int i=0; i<this->lGraph->getV(); i++){
+        std::cout << " " << d[i] << " ";
+    }
+    std::cout << "\n\n";
+
+    std::cout << "Rodzice:\n";
+    for(int i=0; i<this->lGraph->getV(); i++){
+        std::cout << " " << parent[i] << " ";
+    }
+    std::cout << "\n";
+
+    //Ścieżka na stosie
+    for(int i=dst; i>-1; i=parent[i]){
+        stack[wsk++] = i;
+    }
+
+    std::cout << "Sciezka: [";
+    //Wyświetlenie stosu od tyłu z wagą na końcu
+    for(int i=wsk-1; i>=0; i--){
+        std::cout << " " << stack[i] << " ";
+    }
+    std::cout << "]\n";
+    std::cout << "Weight = " << d[dst];
+    std::cout << "\n\nWcisnij Enter, aby kontynuowac!";
+    fflush(stdin);
+    std::cin.get();
+    fflush(stdin);
+}
+
+void ShortestPath::lDijkstry(int src, int dst){
+    //Tablice dynamiczne
+    this->d = new int[this->lGraph->getV()];     //Koszty dojścia
+    this->parent = new int[this->lGraph->getV()];    //Tablica poprzedników
+    this->visited = new bool[this->lGraph->getV()]; //Tablica odwiedzonych
 
     //Inicjalizacja tablic dynamicznych
     for(int i=0; i<this->lGraph->getV(); i++){
@@ -319,45 +352,13 @@ void ShortestPath::lDijkstry(int src, int dst){
             }
         }
     }
-
-    std::cout << "Koszty:\n";
-    for(int i=0; i<this->lGraph->getV(); i++){
-        std::cout << " " << d[i] << " ";
-    }
-    std::cout << "\n\n";
-
-    std::cout << "Rodzice:\n";
-    for(int i=0; i<this->lGraph->getV(); i++){
-        std::cout << " " << parent[i] << " ";
-    }
-    std::cout << "\n";
-
-    //Ścieżka na stosie
-    for(int i=dst; i>-1; i=parent[i]){
-        stack[wsk++] = i;
-    }
-
-    std::cout << "Sciezka: [";
-    //Wyświetlenie stosu od tyłu z wagą na końcu
-    for(int i=wsk-1; i>=0; i--){
-        std::cout << " " << stack[i] << " ";
-    }
-    std::cout << "]\n";
-    std::cout << "Weight = " << d[dst];
-    std::cout << "\n\nWcisnij Enter, aby kontynuowac!";
-    fflush(stdin);
-    std::cin.get();
-    fflush(stdin);
 }
 
 void ShortestPath::mDijkstry(int src, int dst){
-    int MAXINT = 2147483647;
     //Tablice dynamiczne
-    int* d = new int[this->mGraph->getV()];     //Koszty dojścia
-    int* parent = new int[this->mGraph->getV()];    //Tablica poprzedników
-    bool* visited = new bool[this->mGraph->getV()]; //Tablica odwiedzonych
-    int* stack = new int[this->mGraph->getV()];
-    int wsk = 0;
+    this->d = new int[this->mGraph->getV()];     //Koszty dojścia
+    this->parent = new int[this->mGraph->getV()];    //Tablica poprzedników
+    this->visited = new bool[this->mGraph->getV()]; //Tablica odwiedzonych
 
     //Inicjalizacja tablic dynamicznych
     for(int i=0; i<this->mGraph->getV(); i++){
@@ -382,13 +383,6 @@ void ShortestPath::mDijkstry(int src, int dst){
         
         //Odwiedzony
         visited[k] = true;
-        /*
-        for(listElement* i=list->getHead(); i!=list->getTail()->next; i=i->next){
-            if(!visited[i->key] && (d[i->key] > d[k] + i->weight)){
-                d[i->key] = d[k] + i->weight;
-                parent[i->key] = k;
-            }
-        }*/
 
         //k - numer wiersza, który w tym przypadku będzie stały
         for(int i=0; i<this->mGraph->getE(); i++){
@@ -408,35 +402,6 @@ void ShortestPath::mDijkstry(int src, int dst){
             }
         }
     }
-
-    std::cout << "Koszty:\n";
-    for(int i=0; i<this->lGraph->getV(); i++){
-        std::cout << " " << d[i] << " ";
-    }
-    std::cout << "\n\n";
-
-    std::cout << "Rodzice:\n";
-    for(int i=0; i<this->lGraph->getV(); i++){
-        std::cout << " " << parent[i] << " ";
-    }
-    std::cout << "\n";
-
-    //Ścieżka na stosie
-    for(int i=dst; i>-1; i=parent[i]){
-        stack[wsk++] = i;
-    }
-
-    std::cout << "Sciezka: [";
-    //Wyświetlenie stosu od tyłu z wagą na końcu
-    for(int i=wsk-1; i>=0; i--){
-        std::cout << " " << stack[i] << " ";
-    }
-    std::cout << "]\n";
-    std::cout << "Weight = " << d[dst];
-    std::cout << "\n\nWcisnij Enter, aby kontynuowac!";
-    fflush(stdin);
-    std::cin.get();
-    fflush(stdin);    
 }
 
 void ShortestPath::BellmanFord(){
@@ -462,7 +427,9 @@ void ShortestPath::BellmanFord(){
 
                     //Tu wywołuję algorytm Dijkstry dla dwóch wierzchołków
                     lBellmanFord(src, dst);
+                    showShortest(dst);
                     mBellmanFord(src, dst);
+                    showShortest(dst);
                 }
                 else{
                     system("cls");
@@ -494,12 +461,9 @@ void ShortestPath::BellmanFord(){
 }
 
 void ShortestPath::lBellmanFord(int src, int dst){
-    int MAXINT = 2147483647;
     //Tablice dynamiczne
-    int* d = new int[this->lGraph->getV()];     //Koszty dojścia
-    int* parent = new int[this->lGraph->getV()];    //Tablica poprzedników
-    int* stack = new int[this->lGraph->getV()];
-    int wsk = 0;
+    this->d = new int[this->lGraph->getV()];     //Koszty dojścia
+    this->parent = new int[this->lGraph->getV()];    //Tablica poprzedników
     bool bf, t;
 
     //Inicjalizacja struktur
@@ -529,54 +493,16 @@ void ShortestPath::lBellmanFord(int src, int dst){
             }
         }
         if(t){
-            bf = true;
             break;
         }
     }
-
-    bf = true;
     //Pomijam sprawdzenie ujemnego cyklu, ponieważ w założeniach wagi są dodatnie
-    
-    if(bf){
-        std::cout << "Koszty:\n";
-        for(int i=0; i<this->lGraph->getV(); i++){
-            std::cout << " " << d[i] << " ";
-        }
-        std::cout << "\n\n";
-
-        std::cout << "Rodzice:\n";
-        for(int i=0; i<this->lGraph->getV(); i++){
-            std::cout << " " << parent[i] << " ";
-        }
-        std::cout << "\n";
-
-        //Ścieżka na stosie
-        for(int i=dst; i>-1; i=parent[i]){
-            stack[wsk++] = i;
-        }
-
-        std::cout << "Sciezka: [";
-        //Wyświetlenie stosu od tyłu z wagą na końcu
-        for(int i=wsk-1; i>=0; i--){
-            std::cout << " " << stack[i] << " ";
-        }
-        std::cout << "]\n";
-        std::cout << "Weight = " << d[dst];
-        std::cout << "\n\nWcisnij Enter, aby kontynuowac!";
-        fflush(stdin);
-        std::cin.get();
-        fflush(stdin);
-    }
 }
 
 void ShortestPath::mBellmanFord(int src, int dst){
-    int MAXINT = 2147483647;
-    this->clock->startTime();
     //Tablice dynamiczne
-    int* d = new int[this->lGraph->getV()];     //Koszty dojścia
-    int* parent = new int[this->lGraph->getV()];    //Tablica poprzedników
-    int* stack = new int[this->lGraph->getV()];
-    int wsk = 0;
+    this->d = new int[this->lGraph->getV()];     //Koszty dojścia
+    this->parent = new int[this->lGraph->getV()];    //Tablica poprzedników
     bool bf,t;
 
     //Inicjalizacja struktur
@@ -617,38 +543,4 @@ void ShortestPath::mBellmanFord(int src, int dst){
             break;
         }
     }
-    //this->clock->startTime();
-    this->clock->endTime();
-
-    //Wyswietlenie czasu
-    std::cout << "Czas dla macierzowego Bellmana-Forda:" << (long)this->clock->executionTime() << "\n";
-
-    std::cout << "Koszty:\n";
-    for(int i=0; i<this->lGraph->getV(); i++){
-        std::cout << " " << d[i] << " ";
-    }
-    std::cout << "\n\n";
-
-    std::cout << "Rodzice:\n";
-    for(int i=0; i<this->lGraph->getV(); i++){
-        std::cout << " " << parent[i] << " ";
-    }
-    std::cout << "\n";
-
-    //Ścieżka na stosie
-    for(int i=dst; i>-1; i=parent[i]){
-        stack[wsk++] = i;
-    }
-
-    std::cout << "Sciezka: [";
-    //Wyświetlenie stosu od tyłu z wagą na końcu
-    for(int i=wsk-1; i>=0; i--){
-        std::cout << " " << stack[i] << " ";
-    }
-    std::cout << "]\n";
-    std::cout << "Weight = " << d[dst];
-    std::cout << "\n\nWcisnij Enter, aby kontynuowac!";
-    fflush(stdin);
-    std::cin.get();
-    fflush(stdin);
 }
