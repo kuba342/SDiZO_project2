@@ -2,13 +2,13 @@
 
 #include <string>
 #include <unistd.h>
-#include "structures/Queue.hpp"
 
 MST::MST(){
     this->lGraph = nullptr;
     this->mGraph = nullptr;
     this->lib = new Additional();
     this->path = "D:/STUDIA/IV semestr/SDiZO/Projekt/SDiZO_project2/App2/";
+    this->clock = Clock();
 }
 
 MST::~MST(){
@@ -223,34 +223,42 @@ void MST::showGraphs(){
 }
 
 void MST::Prim(){
-    lPrim();
-    mPrim();
-}
-
-void MST::lPrim(){
-    if(this->lGraph == nullptr){
+    if(this->lGraph == nullptr || this->mGraph == nullptr){
         system("cls");
         std::cout << "Nie wczytano grafu!";
         sleep(2);
         return;
     }
+    lPrim();
+    this->lmst->showGraph();
+    std::cout << "Wcisnij Enter, aby kontynuowac!";
+    std::cin.get();
+    fflush(stdin);
+    
+    mPrim();
+    this->mmst->showGraph();
+    std::cout << "Wcisnij Enter, aby kontynuowac!";
+    std::cin.get();
+    fflush(stdin);
+}
 
+void MST::lPrim(){
     int v;
     //kolejka priorytetowa
-    Queue* queue = new Queue(this->lGraph->getE());
+    this->queue = new Queue(this->lGraph->getE());
     //MST listowy
-    ListGraph* mst = new ListGraph(this->lGraph->getV());
+    this->lmst = new ListGraph(this->lGraph->getV());
     //Tablica odwiedzonych
-    bool* visited = new bool [this->lGraph->getV()];
+    this->visited = new bool [this->lGraph->getV()];
 
     //Inicjalizacja tablicy odwiedzonych
     for(int i=0; i<this->lGraph->getV(); i++){
-        visited[i] = false;
+        this->visited[i] = false;
     }
 
     //Minimalne drzewo rozpinające:
     v = 0;                  //wierzchołek startowy
-    visited[v] = true;      //Odchaczony jako odwiedzony
+    this->visited[v] = true;      //Odchaczony jako odwiedzony
     
     Edge e;
     BiList* pointer;
@@ -271,32 +279,20 @@ void MST::lPrim(){
             e = queue->front();
             queue->pop();
         }while(visited[e.end]);
-        mst->addEdge(e.beg, e.end, e.weight);
+        lmst->addEdge(e.beg, e.end, e.weight);
         visited[e.end] = true;
         v = e.end;
     }
-
-    mst->showGraph();
-    std::cout << "Wcisnij Enter, aby kontynuowac!";
-    std::cin.get();
-    fflush(stdin);
 }
 
 void MST::mPrim(){
-    if(this->mGraph == nullptr){
-        system("cls");
-        std::cout << "Nie wczytano grafu!";
-        sleep(2);
-        return;
-    }
-    
     int v, w;
     //kolejka priorytetowa
-    Queue* queue = new Queue(this->mGraph->getE());
+    this->queue = new Queue(this->mGraph->getE());
     //MST macierzowy
-    MatrixGraph* mst = new MatrixGraph(this->mGraph->getV(),this->mGraph->getV()-1);
+    this->mmst = new MatrixGraph(this->mGraph->getV(),this->mGraph->getV()-1);
     //Tablica odwiedzonych
-    bool* visited = new bool [this->mGraph->getV()];
+    this->visited = new bool [this->mGraph->getV()];
 
     //Inicjalizacja tablicy odwiedzonych
     for(int i=0; i<this->mGraph->getV(); i++){
@@ -334,36 +330,39 @@ void MST::mPrim(){
             e = queue->front();
             queue->pop();
         }while(visited[e.end]);
-        mst->addEdge(e.beg, e.end, e.weight);
+        mmst->addEdge(e.beg, e.end, e.weight);
         visited[e.end] = true;
         v = e.end;
     }
-
-    mst->showGraph();
-    std::cout << "Wcisnij Enter, aby kontynuowac!";
-    std::cin.get();
-    fflush(stdin);
 }
 
 void MST::Kruskal(){
-    lKruskal();
-    mKruskal();
-}
-
-void MST::lKruskal(){
-    if(this->lGraph == nullptr){
+    if(this->lGraph == nullptr || this->mGraph == nullptr){
         system("cls");
         std::cout << "Nie wczytano grafu!";
         sleep(2);
         return;
     }
+    lKruskal();
+    lmst->showGraph();
+    std::cout << "Wcisnij Enter, aby kontynuowac!";
+    std::cin.get();
+    fflush(stdin);
+    
+    mKruskal();
+    mmst->showGraph();
+    std::cout << "Wcisnij Enter, aby kontynuowac!";
+    std::cin.get();
+    fflush(stdin);
+}
 
+void MST::lKruskal(){
     //kolejka priorytetowa
-    Queue* queue = new Queue(this->lGraph->getE());
+    this->queue = new Queue(this->lGraph->getE());
     //MST listowy
-    ListGraph* mst = new ListGraph(this->lGraph->getV());
+    this->lmst = new ListGraph(this->lGraph->getV());
     //Zbiory rozłączne
-    DisjointedSet* dst = new DisjointedSet(this->lGraph->getV());
+    this->dst = new DisjointedSet(this->lGraph->getV());
     //Krawędź
     Edge e;
 
@@ -393,30 +392,18 @@ void MST::lKruskal(){
             queue->pop();
         }while(dst->findSet(e.beg) == dst->findSet(e.end));
 
-        mst->addEdge(e.beg, e.end, e.weight);
+        lmst->addEdge(e.beg, e.end, e.weight);
         dst->unionSets(e);
     }
-
-    mst->showGraph();
-    std::cout << "Wcisnij Enter, aby kontynuowac!";
-    std::cin.get();
-    fflush(stdin);
 }
 
 void MST::mKruskal(){
-    if(this->mGraph == nullptr){
-        system("cls");
-        std::cout << "Nie wczytano grafu!";
-        sleep(2);
-        return;
-    }
-
     //kolejka priorytetowa
-    Queue* queue = new Queue(this->mGraph->getE());
+    this->queue = new Queue(this->mGraph->getE());
     //MST listowy
-    MatrixGraph* mst = new MatrixGraph(this->mGraph->getV(), this->mGraph->getV()-1);
+    this->mmst = new MatrixGraph(this->mGraph->getV(), this->mGraph->getV()-1);
     //Zbiory rozłączne
-    DisjointedSet* dst = new DisjointedSet(this->mGraph->getV());
+    this->dst = new DisjointedSet(this->mGraph->getV());
     //Krawędź
     Edge e;
 
@@ -452,13 +439,8 @@ void MST::mKruskal(){
             queue->pop();
         }while(dst->findSet(e.beg) == dst->findSet(e.end));
 
-        mst->addEdge(e.beg, e.end, e.weight);
+        mmst->addEdge(e.beg, e.end, e.weight);
         dst->unionSets(e);
     }
-
-    mst->showGraph();
-    std::cout << "Wcisnij Enter, aby kontynuowac!";
-    std::cin.get();
-    fflush(stdin);
 }
 

@@ -7,6 +7,8 @@
 #include "structures/DisjointedSet.hpp"
 #include "structures/BiList.hpp"
 #include <fstream>
+#include "structures/Queue.hpp"
+#include "clock.hpp"
 
 class MST
 {
@@ -16,6 +18,14 @@ private:
     Additional* lib;
     std::string path;
     std::fstream handler;
+    Clock* clock;
+
+    //Elementy wyznaczania MST
+    Queue* queue;
+    ListGraph* lmst;
+    MatrixGraph* mmst;
+    DisjointedSet* dst;
+    bool* visited;
 
     void readFromFile();
     void readData(std::string name);

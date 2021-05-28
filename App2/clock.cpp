@@ -16,5 +16,5 @@ void Clock::endTime(){
 }
 
 long long Clock::executionTime(){
-    return duration_cast<nanoseconds>(Clock::end - Clock::start).count();
+    return duration_cast<nanoseconds>(end - start).count();
 }

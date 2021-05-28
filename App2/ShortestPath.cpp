@@ -10,6 +10,7 @@ ShortestPath::ShortestPath(){
     this->mGraph = nullptr;
     this->lib = new Additional();
     this->path = "D:/STUDIA/IV semestr/SDiZO/Projekt/SDiZO_project2/App2/";
+    this->clock = new Clock();
 }
 
 ShortestPath::~ShortestPath(){
@@ -570,6 +571,7 @@ void ShortestPath::lBellmanFord(int src, int dst){
 
 void ShortestPath::mBellmanFord(int src, int dst){
     int MAXINT = 2147483647;
+    this->clock->startTime();
     //Tablice dynamiczne
     int* d = new int[this->lGraph->getV()];     //Koszty dojścia
     int* parent = new int[this->lGraph->getV()];    //Tablica poprzedników
@@ -615,6 +617,11 @@ void ShortestPath::mBellmanFord(int src, int dst){
             break;
         }
     }
+    //this->clock->startTime();
+    this->clock->endTime();
+
+    //Wyswietlenie czasu
+    std::cout << "Czas dla macierzowego Bellmana-Forda:" << (long)this->clock->executionTime() << "\n";
 
     std::cout << "Koszty:\n";
     for(int i=0; i<this->lGraph->getV(); i++){

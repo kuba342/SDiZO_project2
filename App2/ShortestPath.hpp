@@ -5,6 +5,7 @@
 #include "ListGraph.hpp"
 #include "structures/Additional.hpp"
 #include <fstream>
+#include "clock.hpp"
 
 class ShortestPath
 {
@@ -14,6 +15,9 @@ private:
     Additional* lib;
     std::string path;
     std::fstream handler;
+    Clock* clock;
+
+    //Elementy wyznaczania ścieżek
 
     void readFromFile();
     void readData(std::string name);
