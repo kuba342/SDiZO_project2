@@ -39,7 +39,7 @@ void ShortestPath::mainLoop(){
                 break;
             case '2':
                 system("cls");
-                generateGraph();
+                generateGraph(0.75,10);
                 break;
             case '3':
                 system("cls");
@@ -202,8 +202,39 @@ void ShortestPath::readData(std::string name){
     }
 }
 
-void ShortestPath::generateGraph(){
+void ShortestPath::generateGraph(double d, int n){
+    //Poszukuję takiej liczby krawędzi, aby zgadzała się z gęstością
+    int counter = 0;
+    double m;
+    m = (d*n*n-d*n)/2;
+    int edges = (int)m;      //Rzutuję na typ całkowity
 
+    //Zakładam, że generuję grafy dla gęstości większych bądź równych 25%
+    //Oraz dla liczby wierzchołków większej niż 10
+
+    //Tworzenie nowego grafu
+    this->lGraph = new ListGraph(n);
+    this->mGraph = new MatrixGraph(n,edges);
+
+    //generator pseudolosowych
+    srand(time(NULL));
+    //Tworzę kręgosłup z losowymi wagami
+    for(int i=0; i<n-1; i++, counter++){
+        int input = rand()%9999;
+        this->lGraph->addDirectedEdge(i,i+1,input);
+        this->mGraph->addDirectedEdge(i,i+1,input);
+    }
+
+    for(int i=counter; i<edges;i++){
+        int beg = rand()%(int)n;
+        int end;
+        do{
+            end = rand()%(int)n;
+        }while(beg == end);
+        int weight = rand()%9999;
+        this->lGraph->addDirectedEdge(beg, end, weight);
+        this->mGraph->addDirectedEdge(beg, end, weight);
+    }
 }
 
 void ShortestPath::showGraphs(){

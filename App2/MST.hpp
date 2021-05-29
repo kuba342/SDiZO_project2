@@ -29,7 +29,7 @@ private:
 
     void readFromFile();
     void readData(std::string name);
-    void generateGraph();
+    void generateGraph(double d, int n);
     void showGraphs();
     void Prim();
     void lPrim();
