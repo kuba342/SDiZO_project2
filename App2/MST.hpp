@@ -37,6 +37,7 @@ private:
     void Kruskal();
     void lKruskal();
     void mKruskal();
+    void freeAll();
 
 public:
     MST();

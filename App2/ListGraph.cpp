@@ -9,6 +9,9 @@ ListGraph::ListGraph(int V){
 }
 
 ListGraph::~ListGraph(){
+    for(int i=0; i<this->V; i++){
+        delete table[i];
+    }
     delete [] table;
 }
 

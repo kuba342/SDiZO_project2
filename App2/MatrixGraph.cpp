@@ -24,6 +24,9 @@ MatrixGraph::MatrixGraph(int V, int E){
 }
 
 MatrixGraph::~MatrixGraph(){
+    for(int i=0; i<this->V; i++){
+        delete [] matrix[i];
+    }
     delete [] matrix;
 }
 

@@ -39,7 +39,7 @@ void ShortestPath::mainLoop(){
                 break;
             case '2':
                 system("cls");
-                generateGraph(0.75,10);
+                generateGraph(0.99,15);
                 break;
             case '3':
                 system("cls");
