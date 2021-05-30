@@ -31,7 +31,7 @@ private:
     void readFromFile();
     void readData(std::string name);
     void generating();
-    void gendecision();
+    void gendecision(int variant);
     void generateGraph(double d, int n);
     void showGraphs();
     void Prim();
@@ -41,6 +41,9 @@ private:
     void lKruskal();
     void mKruskal();
     void freeAll();
+
+    void testing();
+    void tests(double d, int n);
 
 public:
     MST();

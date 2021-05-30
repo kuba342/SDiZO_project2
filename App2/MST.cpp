@@ -25,6 +25,7 @@ void MST::mainLoop(){
     while(1){
         system("cls");
         std::cout << "Wprowadz znak operacji do wykonania:\n"
+                  << "A lub a. Testy automatyczne\n"
                   << "1. Wczytaj dane z pliku.\n"
                   << "2. Wygeneruj graf losowo.\n"
                   << "3. Wyswietl graf listowo i macierzowo na ekranie\n"
@@ -36,6 +37,14 @@ void MST::mainLoop(){
         fflush(stdin);
 
         switch(decision){
+            case 'a':
+                system("cls");
+                testing();
+                break;
+            case 'A':
+                system("cls");
+                testing();
+                break;
             case '1':
                 system("cls");
                 readFromFile();
@@ -217,11 +226,11 @@ void MST::generating(){
         switch(decision){
             case 't':
                 system("cls");
-                gendecision();
+                gendecision(1);
                 break;
             case 'T':
                 system("cls");
-                gendecision();
+                gendecision(1);
                 break;
 
             case 'n':
@@ -240,11 +249,11 @@ void MST::generating(){
         }
     }
     else{
-        gendecision();
+        gendecision(1);
     }
 }
 
-void MST::gendecision(){
+void MST::gendecision(int variant){
     int v = 0;
     double d = 0;
     char decision1, decision2;
@@ -315,7 +324,14 @@ void MST::gendecision(){
         }
     }while(d == 0);
 
-    generateGraph(d,v);
+    switch(variant){
+        case 1:
+            generateGraph(d,v);
+            break;
+        case 2:
+            tests(d,v);
+            break;
+    }
 }
 
 void MST::generateGraph(double d, int n){
@@ -593,7 +609,6 @@ void MST::mKruskal(){
     }
 }
 
-
 void MST::freeAll(){
     //std::cout << "queue\n";
     if(this->queue != nullptr){
@@ -621,4 +636,81 @@ void MST::freeAll(){
         this->visited = nullptr;
     }
     //std::cout << "freeEnd\n";
+}
+
+void MST::testing(){
+    gendecision(2);
+}
+
+void MST::tests(double d, int n){
+    //Liczba prób
+    int count = 50;
+    //Tabela na rezultaty
+    long Tab[count];
+    char decision;
+    do{
+        system("cls");
+        std::cout << "Ktory algorytm przeanalizowac?\n\n"
+                << "1. Prim listowy\n"
+                << "2. Prim macierzowy\n"
+                << "3. Kruskal listowy\n"
+                << "4. Kruskal macierzowy\n"
+                << "Wpisz numer: ";
+        std::cin >> decision;
+        fflush(stdin);
+    }while(decision != '1' && decision != '2' && decision != '3' && decision != '4');
+
+    for(int i=0; i<count; i++){
+        Tab[i] = 0;
+    }
+
+    system("cls");
+    std::cout << "Process: ";
+
+    for(int i=0; i<count; i++){
+        do{
+            generateGraph(d,n);
+            switch(decision){
+                case '1':
+                    this->clock->startTime();
+                    lPrim();
+                    this->clock->endTime();
+                    Tab[i] = this->clock->executionTime();
+                    break;
+                case '2':
+                    this->clock->startTime();
+                    mPrim();
+                    this->clock->endTime();
+                    Tab[i] = this->clock->executionTime();
+                    break;
+                case '3':
+                    this->clock->startTime();
+                    lKruskal();
+                    this->clock->endTime();
+                    Tab[i] = this->clock->executionTime();
+                    break;
+                case '4':
+                    this->clock->startTime();
+                    mKruskal();
+                    this->clock->endTime();
+                    Tab[i] = this->clock->executionTime();
+                    break;
+            }
+        }while(Tab[i] == 0);
+        std::cout << "!";
+    }
+
+    system("cls");
+    std::cout << "Tablica rezultatow:\n"
+              << "Tab = [";
+    for(int i=0; i<count; i++){
+        std::cout << " " << Tab[i] << " ";
+    }
+    std::cout << "]\n\n";
+    std::cout << "Srednia: "
+              << this->lib->average(Tab,count)
+              << "\n\n";
+    std::cout << "Wcisnij Enter, aby kontynuowac!";
+    std::cin.get();
+    fflush(stdin);
 }
