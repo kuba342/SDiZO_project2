@@ -42,7 +42,7 @@ void MST::mainLoop(){
                 break;
             case '2':
                 system("cls");
-                generateGraph(0.25,15);
+                generating();
                 break;
             case '3':
                 system("cls");
@@ -203,6 +203,119 @@ void MST::readData(std::string name){
         this->lGraph->addEdge(beg, end, weight);
         this->mGraph->addEdge(beg, end, weight);
     }
+}
+
+void MST::generating(){
+    char decision;
+    if(this->lGraph != nullptr || this->mGraph != nullptr){
+        system("cls");
+        std::cout << "Czy chcesz nadpisac obecny graf?\n"
+                  << "Wpisz T lub N: ";
+        std::cin >> decision;
+        fflush(stdin);
+
+        switch(decision){
+            case 't':
+                system("cls");
+                gendecision();
+                break;
+            case 'T':
+                system("cls");
+                gendecision();
+                break;
+
+            case 'n':
+                return;
+                break;
+            case 'N':
+                return;
+                break;
+            default:
+                system("cls");
+                std::cout << "Wprowadzono niepoprawny znak\n"
+                          << "Koniec operacji!";
+                sleep(2);
+                return;
+                break;
+        }
+    }
+    else{
+        gendecision();
+    }
+}
+
+void MST::gendecision(){
+    int v = 0;
+    double d = 0;
+    char decision1, decision2;
+
+    do{
+        std::cout << "Ile wierzcholkow ma miec graf?\n\n"
+                << "1. 20\n"
+                << "2. 50\n"
+                << "3. 100\n"
+                << "4. 150\n"
+                << "5. 200\n\n"
+                << "Wpisz numer: ";
+        std::cin >> decision1;
+        fflush(stdin);
+
+        switch(decision1){
+            case '1':
+                v = 20;
+                break;
+            case '2':
+                v = 50;
+                break;
+            case '3':
+                v = 100;
+                break;
+            case '4':
+                v = 150;
+                break;
+            case '5':
+                v = 200;
+                break;
+            default:
+                system("cls");
+                std::cout << "Nieprawidlowy znak!";
+                sleep(2);
+                break;
+        }
+    }while(v == 0);
+    system("cls");
+    do{
+        std::cout << "Jaka gestosc grafu?\n\n"
+                  << "1. 25%\n"
+                  << "2. 50%\n"
+                  << "3. 75%\n"
+                  << "4. 99%\n\n"
+                  << "Wpisz numer: ";
+        std::cin >> decision2;
+        fflush(stdin);
+
+        switch(decision2){
+            case '1':
+                d = 0.25;
+                break;
+            case '2':
+                d = 0.5;
+                break;
+            case '3':
+                d = 0.75;
+                break;
+            case '4':
+                d = 0.99;
+                break;
+            default:
+                system("cls");
+                std::cout << "Nieprawidlowy znak!";
+                sleep(2);
+                break;
+        }
+    }while(d == 0);
+
+    generateGraph(d,v);
 }
 
 void MST::generateGraph(double d, int n){

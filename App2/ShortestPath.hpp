@@ -27,6 +27,8 @@ private:
     void readFromFile();
     void readData(std::string name);
     void generateGraph(double d, int n);
+    void generating();
+    void gendecision();
     void showGraphs();
     void Dijkstry();
     void lDijkstry(int src, int dst);

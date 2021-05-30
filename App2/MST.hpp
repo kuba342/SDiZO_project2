@@ -30,6 +30,8 @@ private:
 
     void readFromFile();
     void readData(std::string name);
+    void generating();
+    void gendecision();
     void generateGraph(double d, int n);
     void showGraphs();
     void Prim();
