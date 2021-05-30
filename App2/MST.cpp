@@ -646,7 +646,7 @@ void MST::tests(double d, int n){
     //Liczba prób
     int count = 50;
     //Tabela na rezultaty
-    long Tab[count];
+    long long Tab[count];
     char decision;
     do{
         system("cls");

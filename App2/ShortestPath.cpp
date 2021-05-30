@@ -22,6 +22,7 @@ void ShortestPath::mainLoop(){
     while(1){
         system("cls");
         std::cout << "Wprowadz znak operacji do wykonania:\n"
+                  << "A lub a. Testy automatyczne\n"
                   << "1. Wczytaj dane z pliku.\n"
                   << "2. Wygeneruj graf losowo.\n"
                   << "3. Wyswietl graf listowo i macierzowo na ekranie\n"
@@ -33,6 +34,14 @@ void ShortestPath::mainLoop(){
         fflush(stdin);
 
         switch(decision){
+            case 'a':
+                system("cls");
+                testing();
+                break;
+            case 'A':
+                system("cls");
+                testing();
+                break;
             case '1':
                 system("cls");
                 readFromFile();
@@ -214,11 +223,11 @@ void ShortestPath::generating(){
         switch(decision){
             case 't':
                 system("cls");
-                gendecision();
+                gendecision(1);
                 break;
             case 'T':
                 system("cls");
-                gendecision();
+                gendecision(1);
                 break;
 
             case 'n':
@@ -237,11 +246,11 @@ void ShortestPath::generating(){
         }
     }
     else{
-        gendecision();
+        gendecision(1);
     }
 }
 
-void ShortestPath::gendecision(){
+void ShortestPath::gendecision(int variant){
     int v = 0;
     double d = 0;
     char decision1, decision2;
@@ -312,7 +321,92 @@ void ShortestPath::gendecision(){
         }
     }while(d == 0);
 
-    generateGraph(d,v);
+    switch(variant){
+        case 1:
+            generateGraph(d,v);
+            break;
+        case 2:
+            tests(d,v);
+            break;
+    }
+}
+
+void ShortestPath::testing(){
+    gendecision(2);
+}
+
+void ShortestPath::tests(double d, int n){
+    //Liczba prób
+    int count = 50;
+    //Tabela na rezultaty
+    long long Tab[count];
+    char decision;
+
+    do{
+        system("cls");
+        std::cout << "Ktory algorytm przeanalizowac?\n\n"
+                << "1. Dijkstry listowy\n"
+                << "2. Dijkstry macierzowy\n"
+                << "3. Bellman-Ford listowy\n"
+                << "4. Bellman-Ford macierzowy\n"
+                << "Wpisz numer: ";
+        std::cin >> decision;
+        fflush(stdin);
+    }while(decision != '1' && decision != '2' && decision != '3' && decision != '4');
+
+    for(int i=0; i<count; i++){
+        Tab[i] = 0;
+    }
+
+    system("cls");
+    std::cout << "Process: ";
+
+    for(int i=0; i<count; i++){
+        do{
+            generateGraph(d,n);
+            switch(decision){
+                case '1':
+                    this->clock->startTime();
+                    lDijkstry(0);
+                    this->clock->endTime();
+                    Tab[i] = this->clock->executionTime();
+                    break;
+                case '2':
+                    this->clock->startTime();
+                    mDijkstry(0);
+                    this->clock->endTime();
+                    Tab[i] = this->clock->executionTime();
+                    break;
+                case '3':
+                    this->clock->startTime();
+                    lBellmanFord(0);
+                    this->clock->endTime();
+                    Tab[i] = this->clock->executionTime();
+                    break;
+                case '4':
+                    this->clock->startTime();
+                    mBellmanFord(0);
+                    this->clock->endTime();
+                    Tab[i] = this->clock->executionTime();
+                    break;
+            }
+        }while(Tab[i] == 0);
+        std::cout << "!";
+    }
+
+    system("cls");
+    std::cout << "Tablica rezultatow:\n"
+              << "Tab = [";
+    for(int i=0; i<count; i++){
+        std::cout << " " << Tab[i] << " ";
+    }
+    std::cout << "]\n\n";
+    std::cout << "Srednia: "
+              << this->lib->average(Tab,count)
+              << "\n\n";
+    std::cout << "Wcisnij Enter, aby kontynuowac!";
+    std::cin.get();
+    fflush(stdin);
 }
 
 void ShortestPath::generateGraph(double d, int n){
@@ -390,9 +484,9 @@ void ShortestPath::Dijkstry(){
                 if(dst < this->lGraph->getV()){
 
                     //Tu wywołuję algorytm Dijkstry dla dwóch wierzchołków
-                    lDijkstry(src, dst);
+                    lDijkstry(src);
                     showShortest(dst);
-                    mDijkstry(src, dst);
+                    mDijkstry(src);
                     showShortest(dst);
                 }
                 else{
@@ -458,7 +552,7 @@ void ShortestPath::showShortest(int dst){
     fflush(stdin);
 }
 
-void ShortestPath::lDijkstry(int src, int dst){
+void ShortestPath::lDijkstry(int src){
     //Tablice dynamiczne
     this->d = new int[this->lGraph->getV()];     //Koszty dojścia
     this->parent = new int[this->lGraph->getV()];    //Tablica poprzedników
@@ -498,7 +592,7 @@ void ShortestPath::lDijkstry(int src, int dst){
     }
 }
 
-void ShortestPath::mDijkstry(int src, int dst){
+void ShortestPath::mDijkstry(int src){
     //Tablice dynamiczne
     this->d = new int[this->mGraph->getV()];     //Koszty dojścia
     this->parent = new int[this->mGraph->getV()];    //Tablica poprzedników
@@ -570,9 +664,9 @@ void ShortestPath::BellmanFord(){
                 if(dst < this->lGraph->getV()){
 
                     //Tu wywołuję algorytm Dijkstry dla dwóch wierzchołków
-                    lBellmanFord(src, dst);
+                    lBellmanFord(src);
                     showShortest(dst);
-                    mBellmanFord(src, dst);
+                    mBellmanFord(src);
                     showShortest(dst);
                 }
                 else{
@@ -604,7 +698,7 @@ void ShortestPath::BellmanFord(){
     }
 }
 
-void ShortestPath::lBellmanFord(int src, int dst){
+void ShortestPath::lBellmanFord(int src){
     //Tablice dynamiczne
     this->d = new int[this->lGraph->getV()];     //Koszty dojścia
     this->parent = new int[this->lGraph->getV()];    //Tablica poprzedników
@@ -643,7 +737,7 @@ void ShortestPath::lBellmanFord(int src, int dst){
     //Pomijam sprawdzenie ujemnego cyklu, ponieważ w założeniach wagi są dodatnie
 }
 
-void ShortestPath::mBellmanFord(int src, int dst){
+void ShortestPath::mBellmanFord(int src){
     //Tablice dynamiczne
     this->d = new int[this->lGraph->getV()];     //Koszty dojścia
     this->parent = new int[this->lGraph->getV()];    //Tablica poprzedników

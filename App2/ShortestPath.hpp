@@ -27,16 +27,20 @@ private:
     void readFromFile();
     void readData(std::string name);
     void generateGraph(double d, int n);
-    void generating();
-    void gendecision();
+    
     void showGraphs();
     void Dijkstry();
-    void lDijkstry(int src, int dst);
-    void mDijkstry(int src, int dst);
+    void lDijkstry(int src);
+    void mDijkstry(int src);
     void BellmanFord();
-    void lBellmanFord(int src, int dst);
-    void mBellmanFord(int src, int dst);
+    void lBellmanFord(int src);
+    void mBellmanFord(int src);
     void showShortest(int dst);
+
+    void generating();
+    void gendecision(int variant);
+    void testing();
+    void tests(double d, int n);
     
 public:
     ShortestPath();

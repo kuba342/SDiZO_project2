@@ -9,7 +9,7 @@ public:
     ~Additional();
     bool isNum(std::string str);
     int average(int* Tab, int size);
-    long average(long* Tab, int size);
+    long long average(long long* Tab, int size);
 };
 
 #endif

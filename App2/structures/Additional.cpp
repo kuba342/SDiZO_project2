@@ -18,9 +18,9 @@ int Additional::average(int* Tab, int size){
     return average = sum/size;
 }
 
-long Additional::average(long* Tab, int size){
+long long Additional::average(long long* Tab, int size){
     long long sum = 0; 
-    long average;
+    long long average;
     for(int i=0; i<size; i++){
         sum += Tab[i];
     }
