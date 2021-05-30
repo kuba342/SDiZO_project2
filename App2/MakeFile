@@ -1,27 +1,28 @@
-OBJS = App.o MatrixGraph.o ListGraph.o clock.o BiList.o MST.o ShortestPath.o Queue.o
-OBJS += Additional.o DisjointedSet.o
+OBJS = App.o MatrixGraph.o ListGraph.o clock.o BiList.o MST.o ShortestPath.o
+OBJS += Additional.o DisjointedSet.o heap.o
 App: $(OBJS)
 	g++ -o App $(OBJS)
-App.o:
+App.o: App.cpp
 	g++ -c App.cpp
-MatrixGraph.o:
+MatrixGraph.o: MatrixGraph.cpp
 	g++ -c MatrixGraph.cpp
-ListGraph.o:
+ListGraph.o: ListGraph.cpp
 	g++ -c ListGraph.cpp
-clock.o:
+clock.o: clock.cpp
 	g++ -c clock.cpp
-BiList.o:
+BiList.o: structures/BiList.cpp
 	g++ -c structures/BiList.cpp
-MST.o:
+MST.o: MST.cpp
 	g++ -c MST.cpp
-ShortestPath.o:
+ShortestPath.o: ShortestPath.cpp
 	g++ -c ShortestPath.cpp
-Queue.o:
-	g++ -c structures/Queue.cpp
-Additional.o:
+
+Additional.o: structures/Additional.cpp
 	g++ -c structures/Additional.cpp
-DisjointedSet.o:
+DisjointedSet.o: structures/DisjointedSet.cpp
 	g++ -c structures/DisjointedSet.cpp
+heap.o: structures/heap.cpp
+	g++ -c structures/heap.cpp
 
 clean:
 	rm -f core App $(OBJS)

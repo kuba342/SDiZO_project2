@@ -42,7 +42,7 @@ void MST::mainLoop(){
                 break;
             case '2':
                 system("cls");
-                generateGraph(0.99,15);
+                generateGraph(0.25,15);
                 break;
             case '3':
                 system("cls");
@@ -282,7 +282,7 @@ void MST::lPrim(){
     freeAll();
     int v;
     //kolejka priorytetowa
-    this->queue = new Queue(this->lGraph->getE());
+    this->queue = new heap();
     //MST listowy
     this->lmst = new ListGraph(this->lGraph->getV());
     //Tablica odwiedzonych
@@ -308,13 +308,13 @@ void MST::lPrim(){
                 e.beg = v;
                 e.end = p->key;
                 e.weight = p->weight;
-                queue->push(e);
+                queue->heapPush(e);
             }
         }
 
         do{
-            e = queue->front();
-            queue->pop();
+            e = queue->getRoot();
+            queue->heapPop();
         }while(visited[e.end]);
         lmst->addEdge(e.beg, e.end, e.weight);
         visited[e.end] = true;
@@ -324,9 +324,9 @@ void MST::lPrim(){
 
 void MST::mPrim(){
     freeAll();
-    int v, w=0;
+    int v;
     //kolejka priorytetowa
-    this->queue = new Queue(this->mGraph->getE());
+    this->queue = new heap();
     //MST macierzowy
     this->mmst = new MatrixGraph(this->mGraph->getV(),this->mGraph->getV()-1);
     //Tablica odwiedzonych
@@ -340,33 +340,29 @@ void MST::mPrim(){
     //Minimalne drzewo rozpinające:
     v = 0;                  //wierzchołek startowy
     visited[v] = true;      //Odchaczony jako odwiedzony
-    
-    Edge e;
-    this->mmst->showGraph();
+
     //Dodaję do MST V-1 krawędzi
     for(int i=1; i<this->mGraph->getV(); i++){
+        Edge e;
         //Przeglądam tablicę dla wierzchołka
         for(int j=0; j<this->mGraph->getE(); j++){
             //Jeśli początek krawędzi
             if(this->mGraph->getMatrix()[v][j] == 1){
                 //Szukam końca krawędzi
                 for(int k=0; k<this->mGraph->getV(); k++){
-                    if(this->mGraph->getMatrix()[k][j] && k!=v){
-                        w = k;  //wierzchołek końcowy
-                        break;
+                    //Jeśli różny od v wierzchołek
+                    if(this->mGraph->getMatrix()[k][j] && k!=v && !this->visited[k]){
+                        e.beg = v;
+                        e.end = k;
+                        e.weight = this->mGraph->getWeights()[j];
+                        queue->heapPush(e);
                     }
                 }
-
-                e.beg = v;
-                e.end = w;
-                e.weight = this->mGraph->getWeights()[j];
-                queue->push(e);
             }
         }
-
         do{
-            e = queue->front();
-            queue->pop();
+            e = queue->getRoot();
+            queue->heapPop();
         }while(visited[e.end]);
         mmst->addEdge(e.beg, e.end, e.weight);
         visited[e.end] = true;
@@ -396,9 +392,8 @@ void MST::Kruskal(){
 
 void MST::lKruskal(){
     freeAll();
-    std::cout << "Pulapka";
     //kolejka priorytetowa
-    this->queue = new Queue(this->lGraph->getE());
+    this->queue = new heap();
     //MST listowy
     this->lmst = new ListGraph(this->lGraph->getV());
     //Zbiory rozłączne
@@ -420,7 +415,7 @@ void MST::lKruskal(){
                 e.beg = i;
                 e.end = j->key;
                 e.weight = j->weight;
-                queue->push(e);
+                queue->heapPush(e);
             }
         }
     }
@@ -428,8 +423,8 @@ void MST::lKruskal(){
     //pętla wykonuje się V-1 razy
     for(int i=1; i<this->lGraph->getV(); i++){
         do{
-            e = queue->front();
-            queue->pop();
+            e = queue->getRoot();
+            queue->heapPop();
         }while(dst->findSet(e.beg) == dst->findSet(e.end));
 
         lmst->addEdge(e.beg, e.end, e.weight);
@@ -438,11 +433,9 @@ void MST::lKruskal(){
 }
 
 void MST::mKruskal(){
-    std::cout << "Pulapka1";
     freeAll();
-    std::cout << "Pulapka2";
     //kolejka priorytetowa
-    this->queue = new Queue(this->mGraph->getE());
+    this->queue = new heap();
     //MST listowy
     this->mmst = new MatrixGraph(this->mGraph->getV(), this->mGraph->getV()-1);
     //Zbiory rozłączne
@@ -468,7 +461,7 @@ void MST::mKruskal(){
                         e.beg = j;
                         e.end = x;
                         e.weight = this->mGraph->getWeights()[i];
-                        queue->push(e);
+                        queue->heapPush(e);
                     }
                 }
             }
@@ -478,8 +471,8 @@ void MST::mKruskal(){
     //Pętla wykonuje się V-1 razy
     for(int i=1; i<this->mGraph->getV(); i++){
         do{
-            e = queue->front();
-            queue->pop();
+            e = queue->getRoot();
+            queue->heapPop();
         }while(dst->findSet(e.beg) == dst->findSet(e.end));
 
         mmst->addEdge(e.beg, e.end, e.weight);
@@ -489,31 +482,30 @@ void MST::mKruskal(){
 
 
 void MST::freeAll(){
-    std::cout << "queue\n";
+    //std::cout << "queue\n";
     if(this->queue != nullptr){
-        std::cout << this->queue;
         delete this->queue;
         this->queue = nullptr;
     }
-    std::cout << "lmst\n";
+    //std::cout << "lmst\n";
     if(this->lmst != nullptr){
         delete this->lmst;
         this->lmst = nullptr;
     }
-    std::cout << "mmst\n";
+    //std::cout << "mmst\n";
     if(this->mmst != nullptr){
         delete this->mmst;
         this->mmst = nullptr;
     }
-    std::cout << "dst\n";
+    //std::cout << "dst\n";
     if(this->dst != nullptr){
         delete this->dst;
         this->dst = nullptr;
     }
-    std::cout << "visited\n";
+    //std::cout << "visited\n";
     if(this->visited != nullptr){
         delete [] this->visited;
         this->visited = nullptr;
     }
-    std::cout << "freeEnd\n";
+    //std::cout << "freeEnd\n";
 }

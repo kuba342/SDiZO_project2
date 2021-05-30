@@ -7,8 +7,8 @@
 #include "structures/DisjointedSet.hpp"
 #include "structures/BiList.hpp"
 #include <fstream>
-#include "structures/Queue.hpp"
 #include "clock.hpp"
+#include "structures/heap.hpp"
 
 class MST
 {
@@ -21,7 +21,8 @@ private:
     Clock* clock;
 
     //Elementy wyznaczania MST
-    Queue* queue;
+    //Queue* queue;
+    heap* queue;
     ListGraph* lmst;
     MatrixGraph* mmst;
     DisjointedSet* dst;

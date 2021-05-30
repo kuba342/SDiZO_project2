@@ -35,10 +35,10 @@ bool MatrixGraph::addEdge(int beg, int end, int weight){
         return false;
     }
     else{
-        this->matrix[beg][this->ECount] = 1;       //Początek jako 1
-        this->matrix[end][this->ECount] = 1;       //Koniec jako 1
-        this->weights[this->ECount] = weight;
-        this->ECount++;
+        this->matrix[beg][ECount] = 1;       //Początek jako 1
+        this->matrix[end][ECount] = 1;       //Koniec jako 1
+        this->weights[ECount] = weight;
+        ECount++;
     }
     return true;
 }
