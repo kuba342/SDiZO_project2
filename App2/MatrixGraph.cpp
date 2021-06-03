@@ -6,6 +6,7 @@ MatrixGraph::MatrixGraph(int V, int E){
     this->V = V;
     this->E = E;
     this->ECount = 0;
+    this->sumWeights = 0;
     this->matrix = new int *[V];
     for(int i=0; i<V; i++){
         this->matrix[i] = new int[E];
@@ -39,6 +40,7 @@ bool MatrixGraph::addEdge(int beg, int end, int weight){
         this->matrix[end][ECount] = 1;       //Koniec jako 1
         this->weights[ECount] = weight;
         ECount++;
+        this->sumWeights += weight;
     }
     return true;
 }
@@ -52,6 +54,7 @@ bool MatrixGraph::addDirectedEdge(int beg, int end, int weight){
         this->matrix[end][this->ECount] = -1;      //Koniec jako -1
         this->weights[this->ECount] = weight;
         this->ECount++;
+        this->sumWeights += weight;
     }
     return true;
 }
@@ -96,4 +99,8 @@ int MatrixGraph::getE(){
 
 int MatrixGraph::getV(){
     return this->V;
+}
+
+int MatrixGraph::getSumWeights(){
+    return this->sumWeights;
 }

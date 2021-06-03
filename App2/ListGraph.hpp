@@ -13,6 +13,7 @@ private:
     int V;
     int E;
     BiList **table;
+    int sumWeights;
 
 public:
     ListGraph();
@@ -26,6 +27,7 @@ public:
     BiList* getListFromArray(int indeks);
     int getV();
     int getE();
+    int getSumWeights();
 
     //reprezentacja
     void showGraph();

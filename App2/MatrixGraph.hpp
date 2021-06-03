@@ -12,6 +12,7 @@ private:
     int ECount;
     int** matrix;
     int* weights;
+    int sumWeights;
 
 public:
     MatrixGraph();
@@ -27,6 +28,7 @@ public:
     int getV();
     int getE();
     int getECount();
+    int getSumWeights();
 
     //reprezentacja
     void showGraph();

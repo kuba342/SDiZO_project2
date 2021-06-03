@@ -6,6 +6,7 @@ ListGraph::ListGraph(int V){
     for(int i=0; i<V; i++){
         this->table[i] = new BiList();
     }
+    this->sumWeights = 0;
 }
 
 ListGraph::~ListGraph(){
@@ -23,6 +24,7 @@ bool ListGraph::addEdge(int beg, int end, int weight){
         this->table[beg]->addAtTheEnd(end, weight);
         this->table[end]->addAtTheEnd(beg, weight);
         this->E++;
+        this->sumWeights += weight;
     }
     return true;
 }
@@ -34,6 +36,7 @@ bool ListGraph::addDirectedEdge(int beg, int end, int weight){
     else{
         this->table[beg]->addAtTheEnd(end, weight);
         this->E++;
+        this->sumWeights += weight;
     }
     return true;
 }
@@ -62,4 +65,8 @@ int ListGraph::getE(){
 
 int ListGraph::getV(){
     return this->V;
+}
+
+int ListGraph::getSumWeights(){
+    return this->sumWeights;
 }

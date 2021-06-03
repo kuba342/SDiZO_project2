@@ -395,14 +395,18 @@ void MST::Prim(){
         return;
     }
     lPrim();
+    std::cout << "Wynik w postaci listowej:\n";
     this->lmst->showGraph();
-    std::cout << "Wcisnij Enter, aby kontynuowac!";
+    std::cout << "\nSuma wag: " << this->lmst->getSumWeights();
+    std::cout << "\nWcisnij Enter, aby kontynuowac!";
     std::cin.get();
     fflush(stdin);
 
     mPrim();
+    std::cout << "\nWynik w postaci macierzowej:\n";
     this->mmst->showGraph();
-    std::cout << "Wcisnij Enter, aby kontynuowac!";
+    std::cout << "\nSuma wag: " << this->mmst->getSumWeights();
+    std::cout << "\nWcisnij Enter, aby kontynuowac!";
     std::cin.get();
     fflush(stdin);
 }
@@ -507,14 +511,18 @@ void MST::Kruskal(){
         return;
     }
     lKruskal();
-    lmst->showGraph();
-    std::cout << "Wcisnij Enter, aby kontynuowac!";
+    std::cout << "Wynik w postaci listowej:\n";
+    this->lmst->showGraph();
+    std::cout << "\nSuma wag: " << this->lmst->getSumWeights();
+    std::cout << "\nWcisnij Enter, aby kontynuowac!";
     std::cin.get();
     fflush(stdin);
 
     mKruskal();
-    mmst->showGraph();
-    std::cout << "Wcisnij Enter, aby kontynuowac!";
+    std::cout << "\nWynik w postaci macierzowej:\n";
+    this->mmst->showGraph();
+    std::cout << "\nSuma wag: " << this->mmst->getSumWeights();
+    std::cout << "\nWcisnij Enter, aby kontynuowac!";
     std::cin.get();
     fflush(stdin);
 }
