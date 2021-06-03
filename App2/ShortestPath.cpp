@@ -479,14 +479,20 @@ void ShortestPath::Dijkstry(){
         if(src < this->lGraph->getV()){
             std::cout << "\nWprowadz wierzcholek docelowy: ";
             std::cin >> destination;
+            fflush(stdin);
             if(this->lib->isNum(destination)){
                 dst = std::stoi(destination);
                 if(dst < this->lGraph->getV()){
 
                     //Tu wywołuję algorytm Dijkstry dla dwóch wierzchołków
                     lDijkstry(src);
+                    system("cls");
+                    std::cout << "Reprezentacja listowa:\n";
                     showShortest(dst);
+
                     mDijkstry(src);
+                    system("cls");
+                    std::cout << "Reprezentacja macierzowa:\n";
                     showShortest(dst);
                 }
                 else{
@@ -522,7 +528,7 @@ void ShortestPath::showShortest(int dst){
     this->stack = new int[this->lGraph->getV()];
     int wsk = 0;
 
-    std::cout << "Koszty:\n";
+    /*std::cout << "Koszty:\n";
     for(int i=0; i<this->lGraph->getV(); i++){
         std::cout << " " << d[i] << " ";
     }
@@ -532,20 +538,20 @@ void ShortestPath::showShortest(int dst){
     for(int i=0; i<this->lGraph->getV(); i++){
         std::cout << " " << parent[i] << " ";
     }
-    std::cout << "\n";
+    std::cout << "\n";*/
 
     //Ścieżka na stosie
     for(int i=dst; i>-1; i=parent[i]){
         stack[wsk++] = i;
     }
 
-    std::cout << "Sciezka: [";
+    std::cout << "Najkrotsza sciezka: [";
     //Wyświetlenie stosu od tyłu z wagą na końcu
     for(int i=wsk-1; i>=0; i--){
         std::cout << " " << stack[i] << " ";
     }
     std::cout << "]\n";
-    std::cout << "Weight = " << d[dst];
+    std::cout << "Waga sciezki = " << d[dst];
     std::cout << "\n\nWcisnij Enter, aby kontynuowac!";
     fflush(stdin);
     std::cin.get();
@@ -659,14 +665,20 @@ void ShortestPath::BellmanFord(){
         if(src < this->lGraph->getV()){
             std::cout << "\nWprowadz wierzcholek docelowy: ";
             std::cin >> destination;
+            fflush(stdin);
             if(this->lib->isNum(destination)){
                 dst = std::stoi(destination);
                 if(dst < this->lGraph->getV()){
 
                     //Tu wywołuję algorytm Dijkstry dla dwóch wierzchołków
                     lBellmanFord(src);
+                    system("cls");
+                    std::cout << "Reprezentacja listowa:\n";
                     showShortest(dst);
+
                     mBellmanFord(src);
+                    system("cls");
+                    std::cout << "Reprezentacja macierzowa:\n";
                     showShortest(dst);
                 }
                 else{
