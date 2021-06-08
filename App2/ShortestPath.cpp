@@ -589,10 +589,12 @@ void ShortestPath::lDijkstry(int src){
         visited[k] = true;
 
         BiList* list = this->lGraph->getListFromArray(k);
-        for(listElement* i=list->getHead(); i!=list->getTail()->next; i=i->next){
-            if(!visited[i->key] && (d[i->key] > d[k] + i->weight)){
-                d[i->key] = d[k] + i->weight;
-                parent[i->key] = k;
+        if(list->getCount() > 0){
+            for(listElement* i=list->getHead(); i!=list->getTail()->next; i=i->next){
+                if(!visited[i->key] && (d[i->key] > d[k] + i->weight)){
+                    d[i->key] = d[k] + i->weight;
+                    parent[i->key] = k;
+                }
             }
         }
     }
@@ -733,14 +735,16 @@ void ShortestPath::lBellmanFord(int src){
             BiList* list;
             list = this->lGraph->getListFromArray(j);
             //Przeglądanie sąsiadów wierzchołka
-            for(listElement* i=list->getHead(); i!=list->getTail()->next; i=i->next){
-                //Warunek relaksacji
-                if(d[j] != MAXINT && d[i->key] > d[j] + i->weight){
-                    t = false;
-                    d[i->key] = d[j] + i->weight;
-                    parent[i->key] = j;
-                }
-            }
+            if(list->getCount() > 0){
+                for(listElement* i=list->getHead(); i!=list->getTail()->next; i=i->next){
+                    //Warunek relaksacji
+                    if(d[j] != MAXINT && d[i->key] > d[j] + i->weight){
+                        t = false;
+                        d[i->key] = d[j] + i->weight;
+                        parent[i->key] = j;
+                    }
+                } 
+            }  
         }
         if(t){
             break;
