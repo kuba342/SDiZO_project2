@@ -35,7 +35,7 @@ private:
     void BellmanFord();
     void lBellmanFord(int src);
     void mBellmanFord(int src);
-    void showShortest(int dst);
+    void showShortest(int src, int dst);
 
     void generating();
     void gendecision(int variant);

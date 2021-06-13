@@ -488,12 +488,12 @@ void ShortestPath::Dijkstry(){
                     lDijkstry(src);
                     system("cls");
                     std::cout << "Reprezentacja listowa:\n";
-                    showShortest(dst);
+                    showShortest(src, dst);
 
                     mDijkstry(src);
                     system("cls");
                     std::cout << "Reprezentacja macierzowa:\n";
-                    showShortest(dst);
+                    showShortest(src, dst);
                 }
                 else{
                     system("cls");
@@ -524,7 +524,7 @@ void ShortestPath::Dijkstry(){
     }
 }
 
-void ShortestPath::showShortest(int dst){
+void ShortestPath::showShortest(int src, int dst){
     this->stack = new int[this->lGraph->getV()];
     int wsk = 0;
 
@@ -545,14 +545,21 @@ void ShortestPath::showShortest(int dst){
         stack[wsk++] = i;
     }
 
-    std::cout << "Najkrotsza sciezka: [";
-    //Wyświetlenie stosu od tyłu z wagą na końcu
-    for(int i=wsk-1; i>=0; i--){
-        std::cout << " " << stack[i] << " ";
+    if(stack[wsk-1] == src){
+        std::cout << "Najkrotsza sciezka: [";
+        //Wyświetlenie stosu od tyłu z wagą na końcu
+        for(int i=wsk-1; i>=0; i--){
+            std::cout << " " << stack[i] << " ";
+        }
+        std::cout << "]\n";
+        std::cout << "Waga sciezki = " << d[dst];
+        std::cout << "\n\nWcisnij Enter, aby kontynuowac!";
     }
-    std::cout << "]\n";
-    std::cout << "Waga sciezki = " << d[dst];
-    std::cout << "\n\nWcisnij Enter, aby kontynuowac!";
+    else{
+        std::cout << "Brak sciezki!";
+        std::cout << "\n\nWcisnij Enter, aby kontynuowac!";
+    }
+    
     fflush(stdin);
     std::cin.get();
     fflush(stdin);
@@ -676,12 +683,12 @@ void ShortestPath::BellmanFord(){
                     lBellmanFord(src);
                     system("cls");
                     std::cout << "Reprezentacja listowa:\n";
-                    showShortest(dst);
+                    showShortest(src, dst);
 
                     mBellmanFord(src);
                     system("cls");
                     std::cout << "Reprezentacja macierzowa:\n";
-                    showShortest(dst);
+                    showShortest(src, dst);
                 }
                 else{
                     system("cls");
