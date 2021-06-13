@@ -388,30 +388,45 @@ void MST::showGraphs(){
 }
 
 void MST::Prim(){
+    std::string bufor;
+    int src;
     if(this->lGraph == nullptr || this->mGraph == nullptr){
         system("cls");
         std::cout << "Nie wczytano grafu!";
         sleep(2);
         return;
     }
-    lPrim();
-    std::cout << "Wynik w postaci listowej:\n";
-    this->lmst->showGraph();
-    std::cout << "\nSuma wag: " << this->lmst->getSumWeights();
-    std::cout << "\nWcisnij Enter, aby kontynuowac!";
-    std::cin.get();
+    std::cout << "Podaj wierzcholek poczatkowy: ";
+    std::cin >> bufor;
     fflush(stdin);
+    if(this->lib->isNum(bufor)){
+        src = std::stoi(bufor);
+        if(src < this->lGraph->getV()){
+            lPrim(src);
+            std::cout << "Wynik w postaci listowej:\n";
+            this->lmst->showGraph();
+            std::cout << "\nSuma wag: " << this->lmst->getSumWeights();
+            std::cout << "\nWcisnij Enter, aby kontynuowac!";
+            std::cin.get();
+            fflush(stdin);
 
-    mPrim();
-    std::cout << "\nWynik w postaci macierzowej:\n";
-    this->mmst->showGraph();
-    std::cout << "\nSuma wag: " << this->mmst->getSumWeights();
-    std::cout << "\nWcisnij Enter, aby kontynuowac!";
-    std::cin.get();
-    fflush(stdin);
+            mPrim(src);
+            std::cout << "\nWynik w postaci macierzowej:\n";
+            this->mmst->showGraph();
+            std::cout << "\nSuma wag: " << this->mmst->getSumWeights();
+            std::cout << "\nWcisnij Enter, aby kontynuowac!";
+            std::cin.get();
+            fflush(stdin);
+        }
+        else{
+            system("cls");
+            std::cout << "Nie ma takiego wierzcholka!";
+            sleep(3);
+        }
+    }
 }
 
-void MST::lPrim(){
+void MST::lPrim(int src){
     freeAll();
     int v;
     //kolejka priorytetowa
@@ -427,7 +442,7 @@ void MST::lPrim(){
     }
 
     //Minimalne drzewo rozpinające:
-    v = 0;                  //wierzchołek startowy
+    v = src;                  //wierzchołek startowy
     this->visited[v] = true;      //Odchaczony jako odwiedzony
     
     Edge e;
@@ -455,7 +470,7 @@ void MST::lPrim(){
     }
 }
 
-void MST::mPrim(){
+void MST::mPrim(int src){
     freeAll();
     int v;
     //kolejka priorytetowa
@@ -471,7 +486,7 @@ void MST::mPrim(){
     }
 
     //Minimalne drzewo rozpinające:
-    v = 0;                  //wierzchołek startowy
+    v = src;                  //wierzchołek startowy
     visited[v] = true;      //Odchaczony jako odwiedzony
 
     //Dodaję do MST V-1 krawędzi
@@ -681,13 +696,13 @@ void MST::tests(double d, int n){
             switch(decision){
                 case '1':
                     this->clock->startTime();
-                    lPrim();
+                    lPrim(0);
                     this->clock->endTime();
                     Tab[i] = this->clock->executionTime();
                     break;
                 case '2':
                     this->clock->startTime();
-                    mPrim();
+                    mPrim(0);
                     this->clock->endTime();
                     Tab[i] = this->clock->executionTime();
                     break;

@@ -35,8 +35,8 @@ private:
     void generateGraph(double d, int n);
     void showGraphs();
     void Prim();
-    void lPrim();
-    void mPrim();
+    void lPrim(int src);
+    void mPrim(int src);
     void Kruskal();
     void lKruskal();
     void mKruskal();
